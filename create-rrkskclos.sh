@@ -62,11 +62,11 @@ passwd -d root
 apt-get update
 apt-get install --no-install-recommends --yes \
     linux-image-amd64 live-boot systemd-sysv \
-    syslinux isolinux
+    syslinux syslinux-common isolinux
 apt-get install --no-install-recommends --yes \
     iproute2 ifupdown pciutils usbutils dosfstools syslinux \
-    vim links2 xpdf cups enscript libbsd-dev tree openssl less \
-    xfce4 xfce4-terminal xfce4-panel lightdm system-config-printer xterm
+    vim links2 xpdf cups cups-bsd enscript libbsd-dev tree openssl less iputils-ping \
+    xserver-xorg-core xserver-xorg xfce4 xfce4-terminal xfce4-panel lightdm system-config-printer xterm
 apt-get --yes --purge autoremove
 apt-get --yes clean
 EOF
@@ -180,7 +180,7 @@ label RRKSKCLOS Live 4.9.0-3-amd64
 menu label ^RRKSKCLOS Live 4.9.0-3-amd64
 menu default
 kernel /live/vmlinuz-4.9.0-3-amd64
-append initrd=/live/initrd.img-4.9.0-3-amd64 boot=live locales=en_US.UTF-8 net.ifnames=0 timezone=Etc/UTC live-media=removable nopersistence selinux=0
+append initrd=/live/initrd.img-4.9.0-3-amd64 boot=live locales=en_US.UTF-8 net.ifnames=0 timezone=Etc/UTC live-media=removable nopersistence selinux=0 STATICIP=frommedia modprobe.blacklist=pcspkr
 
 EOF
 
@@ -199,7 +199,7 @@ cp -p $WD/chroot/usr/share/misc/pci.ids $WD/image/isolinux/
 ## Creating the iso
 echo "Creating the iso"
 xorriso -outdev $WD.iso -volid $WD \
- -map $WD/image/ / -chmod 0755 / -- -boot_image isolinux dir=image/isolinux \
+ -map $WD/image/ / -chmod 0755 / -- -boot_image isolinux dir=/isolinux \
  -boot_image isolinux system_area=$WD/chroot/usr/lib/ISOLINUX/isohdpfx.bin \
  -boot_image isolinux partition_entry=gpt_basdat
 
