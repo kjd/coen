@@ -122,8 +122,13 @@ echo "Instaling DNSSEC Configurations Files"
 install -m 755 -d $WD/chroot/opt/dnssec
 install -p -m 444 ./opt/dnssec/*    $WD/chroot/opt/dnssec
 
-# Profile
-echo "export PATH=:/opt/icann/bin:/opt/Keyper/bin:\$PATH" >> $WD/chroot/etc/profile.d/kc.sh
+# Profile in .bashrc to work with xfce terminal
+echo "export PATH=:/opt/icann/bin:/opt/Keyper/bin:\$PATH" >> $WD/chroot/root/.bashrc
+# ls with color
+sed -i -r -e '9s/^#//' \
+          -e '10s/^#//' \
+          -e '11s/^#//' \
+    $WD/chroot/root/.bashrc
 
 # Configure autologin
 for NUMBER in $(seq 1 6)
