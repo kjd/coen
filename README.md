@@ -1,2 +1,2 @@
-# RRKSKCLOS
-Reproducible Root Key Signing Key Ceremony Live Operating System
+# RRZKSKCLOS
+Reproducible Root Zone Key Signing Key Ceremony Live Operating System

@@ -12,7 +12,7 @@ export SOURCE_DATE_EPOCH="$(date --utc --date="$DATE" +%s)" # defined by reprodu
 export SOURCE_DATE_YYYYMMDD="$(date --utc --date="$DATE" +%Y%m%d)"
 
 ROOT_UID=0	# Only users with $UID 0 have root privileges
-WD=RRKSKCLOS-$DATE	# Working directory to create the ISO for Reproducible Root Key Signing Key Ceremony Live Operating System
+WD=RRZKSKCLOS-$DATE	# Working directory to create the ISO for Reproducible Root Key Signing Key Ceremony Live Operating System
 arch=amd64 # Target architecture
 dist=stable # Distribution
 mirror=http://ftp.us.debian.org/debian/
@@ -57,7 +57,7 @@ debootstrap \
 
 # Chroot to the new Debian environment
 cat << EOF | chroot $WD/chroot
-echo "RRKSKCLOS" > /etc/hostname
+echo "RRZKSKCLOS" > /etc/hostname
 passwd -d root
 apt-get update
 apt-get install --no-install-recommends --yes \
@@ -73,7 +73,7 @@ EOF
 
 echo "Setting network"
 cat > $WD/chroot/etc/hosts << EOF
-127.0.0.1       localhost RRKSKCLOS
+127.0.0.1       localhost RRZKSKCLOS
 192.168.0.2     hsm
 EOF
 
@@ -177,12 +177,12 @@ cat > $WD/image/isolinux/isolinux.cfg << EOF
 UI menu.c32
 
 prompt 0
-menu title RRKSKCLOS
+menu title RRZKSKCLOS
 
 timeout 1
 
-label RRKSKCLOS Live 4.9.0-3-amd64
-menu label ^RRKSKCLOS Live 4.9.0-3-amd64
+label RRZKSKCLOS Live 4.9.0-3-amd64
+menu label ^RRZKSKCLOS Live 4.9.0-3-amd64
 menu default
 kernel /live/vmlinuz-4.9.0-3-amd64
 append initrd=/live/initrd.img-4.9.0-3-amd64 boot=live locales=en_US.UTF-8 net.ifnames=0 timezone=Etc/UTC live-media=removable nopersistence selinux=0 STATICIP=frommedia modprobe.blacklist=pcspkr
