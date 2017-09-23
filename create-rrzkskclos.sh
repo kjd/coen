@@ -64,7 +64,7 @@ apt-get install --no-install-recommends --yes \
     linux-image-amd64 live-boot systemd-sysv \
     syslinux syslinux-common isolinux
 apt-get install --no-install-recommends --yes \
-    iproute2 ifupdown pciutils usbutils dosfstools syslinux \
+    iproute2 ifupdown pciutils usbutils dosfstools syslinux eject exfat-utils \
     vim links2 xpdf cups cups-bsd enscript libbsd-dev tree openssl less iputils-ping \
     xserver-xorg-core xserver-xorg xfce4 xfce4-terminal xfce4-panel lightdm system-config-printer xterm
 apt-get --yes --purge autoremove
