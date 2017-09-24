@@ -158,7 +158,18 @@ sed -i --regexp-extended \
 # lastlog with autologin doesn't make sense
 sed -i '/^[^#].*pam_lastlog\.so/s/^/# /' $WD/chroot/etc/pam.d/login
 
-# HSMFD
+echo "Custom XFCE"
+# xfce panel, unlock, power off, desktop configuration
+mkdir -p $WD/chroot/root/.config/xfce4/xfconf/xfce-perchannel-xml
+install -p -m 644 ./.config/xfce4/xfconf/xfce-perchannel-xml/*  $WD/chroot/root/.config/xfce4/xfconf/xfce-perchannel-xml
+# Terminal with 2 tabs
+install -p -m 644 ./xfce4-terminal.desktop $WD/chroot/etc/xdg/autostart/
+# Print Test Page
+install -p -m 644 ./print-test-page.desktop $WD/chroot/etc/xdg/autostart/
+# just in case, anyway it is not installed
+rm $WD/chroot/etc/xdg/autostart/xscreensaver.desktop
+
+# Managing HSMFD, HSMFD_ and KSRFD
 
 # Creating boot directories
 mkdir -p $WD/image/live
