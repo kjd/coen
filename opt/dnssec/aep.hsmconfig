@@ -1,0 +1,2 @@
+KEYPER_LIBRARY_PATH=/opt/dnssec
+PKCS11_LIBRARY_PATH=/opt/Keyper/PKCS11Provider/pkcs11.linux_gcc_4_1_2_glibc_2_5_x86_64.so.5.02
