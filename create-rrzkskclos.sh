@@ -59,12 +59,13 @@ debootstrap \
 cat << EOF | chroot $WD/chroot
 echo "RRZKSKCLOS" > /etc/hostname
 passwd -d root
+export DEBIAN_FRONTEND=noninteractive
 apt-get update
 apt-get install --no-install-recommends --yes \
     linux-image-amd64 live-boot systemd-sysv \
     syslinux syslinux-common isolinux
 apt-get install --no-install-recommends --yes \
-    iproute2 ifupdown pciutils usbutils dosfstools syslinux eject exfat-utils \
+    iproute2 ifupdown pciutils usbutils dosfstools eject exfat-utils \
     vim links2 xpdf cups cups-bsd enscript libbsd-dev tree openssl less iputils-ping \
     xserver-xorg-core xserver-xorg xfce4 xfce4-terminal xfce4-panel lightdm system-config-printer xterm
 apt-get --yes --purge autoremove
@@ -185,7 +186,7 @@ label RRZKSKCLOS Live 4.9.0-3-amd64
 menu label ^RRZKSKCLOS Live 4.9.0-3-amd64
 menu default
 kernel /live/vmlinuz-4.9.0-3-amd64
-append initrd=/live/initrd.img-4.9.0-3-amd64 boot=live locales=en_US.UTF-8 net.ifnames=0 timezone=Etc/UTC live-media=removable nopersistence selinux=0 STATICIP=frommedia modprobe.blacklist=pcspkr
+append initrd=/live/initrd.img-4.9.0-3-amd64 boot=live locales=en_US.UTF-8 keymap=us language=us net.ifnames=0 timezone=Etc/UTC live-media=removable nopersistence selinux=0 STATICIP=frommedia modprobe.blacklist=pcspkr
 
 EOF
 
