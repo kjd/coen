@@ -1,8 +1,0 @@
-[Desktop Entry]
-Name=Print Test Page
-Comment=Print Test Page
-GenericName=Print Test Page
-Exec=lpr /usr/share/cups/data/testprint
-Terminal=true
-Type=Application
-StartupNotify=false

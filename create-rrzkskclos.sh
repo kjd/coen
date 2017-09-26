@@ -165,7 +165,7 @@ install -p -m 644 ./.config/xfce4/xfconf/xfce-perchannel-xml/*  $WD/chroot/root/
 # Terminal with 2 tabs
 install -p -m 644 ./xfce4-terminal.desktop $WD/chroot/etc/xdg/autostart/
 # Print Test Page
-install -p -m 644 ./print-test-page.desktop $WD/chroot/etc/xdg/autostart/
+install -p -m 644 ./system-config-printer.desktop $WD/chroot/etc/xdg/autostart/
 # just in case, anyway it is not installed
 rm $WD/chroot/etc/xdg/autostart/xscreensaver.desktop
 
