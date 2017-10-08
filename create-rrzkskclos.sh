@@ -188,13 +188,14 @@ mkdir -p $WD/image/live
 mkdir -p $WD/image/isolinux
 
 # Compressing the chroot environment into a squashfs
-mksquashfs $WD/chroot/ $WD/image/live/filesystem.squashfs -noappend -comp xz
+mksquashfs $WD/chroot/ $WD/image/live/filesystem.squashfs -ef boot -noappend -comp xz
 
 # Setting permissions for squashfs.img
 chmod 644 $WD/image/live/filesystem.squashfs
 
 # Coping bootloader
-cp -p $WD/chroot/boot/* $WD/image/live/
+cp -p $WD/chroot/boot/vmlinuz-* $WD/image/live/vmlinuz
+cp -p $WD/chroot/boot/initrd.img-* $WD/image/live/initrd.img
 
 # Creating the isolinux bootloader
 cat > $WD/image/isolinux/isolinux.cfg << EOF
@@ -205,11 +206,11 @@ menu title RRZKSKCLOS
 
 timeout 1
 
-label RRZKSKCLOS Live 4.9.0-4-amd64
-menu label ^RRZKSKCLOS Live 4.9.0-4-amd64
+label RRZKSKCLOS Live amd64
+menu label ^RRZKSKCLOS amd64
 menu default
-kernel /live/vmlinuz-4.9.0-4-amd64
-append initrd=/live/initrd.img-4.9.0-4-amd64 boot=live locales=en_US.UTF-8 keymap=us language=us net.ifnames=0 timezone=Etc/UTC live-media=removable nopersistence selinux=0 STATICIP=frommedia modprobe.blacklist=pcspkr,hci_uart,btintel,btqca,btbcm,bluetooth,snd_hda_intel,snd_hda_codec_realtek,snd_soc_skl,snd_soc_skl_ipc,snd_soc_sst_ipc,snd_soc_sst_dsp,snd_hda_ext_core,snd_soc_sst_match,snd_soc_core,snd_compress,snd_hda_core,snd_pcm,snd_timer,snd,soundcore
+kernel /live/vmlinuz
+append initrd=/live/initrd.img boot=live locales=en_US.UTF-8 keymap=us language=us net.ifnames=0 timezone=Etc/UTC live-media=removable nopersistence selinux=0 STATICIP=frommedia modprobe.blacklist=pcspkr,hci_uart,btintel,btqca,btbcm,bluetooth,snd_hda_intel,snd_hda_codec_realtek,snd_soc_skl,snd_soc_skl_ipc,snd_soc_sst_ipc,snd_soc_sst_dsp,snd_hda_ext_core,snd_soc_sst_match,snd_soc_core,snd_compress,snd_hda_core,snd_pcm,snd_timer,snd,soundcore
 
 EOF
 
