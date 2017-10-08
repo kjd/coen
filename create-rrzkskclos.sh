@@ -205,11 +205,11 @@ menu title RRZKSKCLOS
 
 timeout 1
 
-label RRZKSKCLOS Live 4.9.0-3-amd64
-menu label ^RRZKSKCLOS Live 4.9.0-3-amd64
+label RRZKSKCLOS Live 4.9.0-4-amd64
+menu label ^RRZKSKCLOS Live 4.9.0-4-amd64
 menu default
-kernel /live/vmlinuz-4.9.0-3-amd64
-append initrd=/live/initrd.img-4.9.0-3-amd64 boot=live locales=en_US.UTF-8 keymap=us language=us net.ifnames=0 timezone=Etc/UTC live-media=removable nopersistence selinux=0 STATICIP=frommedia modprobe.blacklist=pcspkr,hci_uart,btintel,btqca,btbcm,bluetooth,snd_hda_intel,snd_hda_codec_realtek,snd_soc_skl,snd_soc_skl_ipc,snd_soc_sst_ipc,snd_soc_sst_dsp,snd_hda_ext_core,snd_soc_sst_match,snd_soc_core,snd_compress,snd_hda_core,snd_pcm,snd_timer,snd,soundcore
+kernel /live/vmlinuz-4.9.0-4-amd64
+append initrd=/live/initrd.img-4.9.0-4-amd64 boot=live locales=en_US.UTF-8 keymap=us language=us net.ifnames=0 timezone=Etc/UTC live-media=removable nopersistence selinux=0 STATICIP=frommedia modprobe.blacklist=pcspkr,hci_uart,btintel,btqca,btbcm,bluetooth,snd_hda_intel,snd_hda_codec_realtek,snd_soc_skl,snd_soc_skl_ipc,snd_soc_sst_ipc,snd_soc_sst_dsp,snd_hda_ext_core,snd_soc_sst_match,snd_soc_core,snd_compress,snd_hda_core,snd_pcm,snd_timer,snd,soundcore
 
 EOF
 
@@ -227,7 +227,7 @@ cp -p $WD/chroot/usr/share/misc/pci.ids $WD/image/isolinux/
 
 ## Creating the iso
 echo "Creating the iso"
-xorriso -outdev $WD.iso -volid RRZKSKCLOS \
+xorriso -outdev $WD.iso -volid ${WD/-/_} \
  -map $WD/image/ / -chmod 0755 / -- -boot_image isolinux dir=/isolinux \
  -boot_image isolinux system_area=$WD/chroot/usr/lib/ISOLINUX/isohdpfx.bin \
  -boot_image isolinux partition_entry=gpt_basdat
