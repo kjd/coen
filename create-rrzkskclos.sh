@@ -188,7 +188,7 @@ mkdir -p $WD/image/live
 mkdir -p $WD/image/isolinux
 
 # Compressing the chroot environment into a squashfs
-mksquashfs $WD/chroot/ $WD/image/live/filesystem.squashfs -ef boot -noappend -comp xz
+mksquashfs $WD/chroot/ $WD/image/live/filesystem.squashfs -e boot -noappend -comp xz
 
 # Setting permissions for squashfs.img
 chmod 644 $WD/image/live/filesystem.squashfs
