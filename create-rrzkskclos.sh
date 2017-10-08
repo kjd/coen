@@ -67,7 +67,8 @@ apt-get install --no-install-recommends --yes \
 apt-get install --no-install-recommends --yes \
     iproute2 ifupdown pciutils usbutils dosfstools eject exfat-utils \
     vim links2 xpdf cups cups-bsd enscript libbsd-dev tree openssl less iputils-ping \
-    xserver-xorg-core xserver-xorg xfce4 xfce4-terminal xfce4-panel lightdm system-config-printer xterm
+    xserver-xorg-core xserver-xorg xfce4 xfce4-terminal xfce4-panel lightdm system-config-printer \
+    xterm gvfs thunar-volman
 apt-get --yes --purge autoremove
 apt-get --yes clean
 EOF
@@ -164,12 +165,23 @@ mkdir -p $WD/chroot/root/.config/xfce4/xfconf/xfce-perchannel-xml
 install -p -m 644 ./.config/xfce4/xfconf/xfce-perchannel-xml/*  $WD/chroot/root/.config/xfce4/xfconf/xfce-perchannel-xml
 # Terminal with 2 tabs
 install -p -m 644 ./xfce4-terminal.desktop $WD/chroot/etc/xdg/autostart/
-# Print Test Page
+# Executing Printer Config
 install -p -m 644 ./system-config-printer.desktop $WD/chroot/etc/xdg/autostart/
 # just in case, anyway it is not installed
 rm $WD/chroot/etc/xdg/autostart/xscreensaver.desktop
 
 # Managing HSMFD, HSMFD_ and KSRFD
+cat > $WD/chroot/etc/udev/rules.d/99-udisks2.rules << EOF
+# UDISKS_FILESYSTEM_SHARED
+# ==1: mount filesystem to a shared directory (/media/VolumeName)
+# ==0: mount filesystem to a private directory (/run/media/$USER/VolumeName)
+# See udisks(8)
+ENV{ID_FS_USAGE}=="filesystem|other|crypto", ENV{UDISKS_FILESYSTEM_SHARED}="1"
+EOF
+# Creating Symbolic Link to HSMFD_
+cat << EOF | chroot $WD/chroot
+ln -s /media/HSMFD1 /media/HSMFD_
+EOF
 
 # Creating boot directories
 mkdir -p $WD/image/live
@@ -197,7 +209,7 @@ label RRZKSKCLOS Live 4.9.0-3-amd64
 menu label ^RRZKSKCLOS Live 4.9.0-3-amd64
 menu default
 kernel /live/vmlinuz-4.9.0-3-amd64
-append initrd=/live/initrd.img-4.9.0-3-amd64 boot=live locales=en_US.UTF-8 keymap=us language=us net.ifnames=0 timezone=Etc/UTC live-media=removable nopersistence selinux=0 STATICIP=frommedia modprobe.blacklist=pcspkr
+append initrd=/live/initrd.img-4.9.0-3-amd64 boot=live locales=en_US.UTF-8 keymap=us language=us net.ifnames=0 timezone=Etc/UTC live-media=removable nopersistence selinux=0 STATICIP=frommedia modprobe.blacklist=pcspkr,hci_uart,btintel,btqca,btbcm,bluetooth,snd_hda_intel,snd_hda_codec_realtek,snd_soc_skl,snd_soc_skl_ipc,snd_soc_sst_ipc,snd_soc_sst_dsp,snd_hda_ext_core,snd_soc_sst_match,snd_soc_core,snd_compress,snd_hda_core,snd_pcm,snd_timer,snd,soundcore
 
 EOF
 
@@ -215,12 +227,12 @@ cp -p $WD/chroot/usr/share/misc/pci.ids $WD/image/isolinux/
 
 ## Creating the iso
 echo "Creating the iso"
-xorriso -outdev $WD.iso -volid $WD \
+xorriso -outdev $WD.iso -volid RRZKSKCLOS \
  -map $WD/image/ / -chmod 0755 / -- -boot_image isolinux dir=/isolinux \
  -boot_image isolinux system_area=$WD/chroot/usr/lib/ISOLINUX/isohdpfx.bin \
  -boot_image isolinux partition_entry=gpt_basdat
 
 ## Carefully removing working directory
-#rm -rf $WD
+rm -rf $WD
 
 # END
