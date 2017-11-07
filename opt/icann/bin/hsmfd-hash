@@ -1,10 +1,10 @@
-#!/bin/sh
+#!/bin/bash
 #
 # Easy way to calculate, print and compare hashes for HSMFDs
 
 # Mount point for HSMFD
-hsmfd="/media/HSMFD"
-hsmfd_="/media/HSMFD_"
+hsmfd="/media/HSMFD/"
+hsmfd1="/media/HSMFD1/"
 
 # How to use the script
 usage ()
@@ -17,7 +17,7 @@ usage ()
 	echo " -m Compare the calculated SHA-256 hashes between HSMFDs"
 	}
 
-# Checking if the FD is mounted 
+# Checking if the FD is mounted
 check_mount()
 	{
 	if [ ! -d $1 ]; then
@@ -46,21 +46,21 @@ case $1 in
                 sha256hsmfd=$(find -P $hsmfd -type f -print0 | sort -z | xargs -0 cat | sha2wordlist)
                 echo "$hsmfd"
 		echo "$sha256hsmfd"
-		echo -e "\n # find -P $hsmfd -type f -print0 | sort -z | xargs -0 cat | sha2wordlist \n\n $sha256hsmfd" | enscript --font=Courier10 --header='HSMFD SHA-256 HASH||%D{%Y/%m/%d}' 
+		echo -e "\n # find -P $hsmfd -type f -print0 | sort -z | xargs -0 cat | sha2wordlist \n\n $sha256hsmfd" | enscript --font=Courier10 --header='HSMFD SHA-256 HASH||%D{%Y/%m/%d}'
 		exit
 	;;
 	"-m")
 		check_mount $hsmfd
-		check_mount $hsmfd_
+		check_mount $hsmfd1
 		# Calculating the SHA-256 hash
 		sha256hsmfd=$(find -P $hsmfd -type f -print0 | sort -z | xargs -0 cat | sha256sum)
-		sha256hsmfd_=$(find -P $hsmfd_ -type f -print0 | sort -z | xargs -0 cat | sha256sum)
+		sha256hsmfd1=$(find -P $hsmfd1 -type f -print0 | sort -z | xargs -0 cat | sha256sum)
 		echo "SHA-256 $hsmfd  : $sha256hsmfd"
-		echo "SHA-256 $hsmfd_ : $sha256hsmfd_"
+		echo "SHA-256 $hsmfd1 : $sha256hsmfd1"
 		# Comparing the hashes
-		if [ "$sha256hsmfd" != "$sha256hsmfd_" ];
+		if [ "$sha256hsmfd" != "$sha256hsmfd1" ];
 			then
-               		 echo "ERROR: SHA-256 hashes do not match, try to format the $hsmfd_ and copy again"
+               		 echo "ERROR: SHA-256 hashes do not match, try to format the $hsmfd1 and copy again"
 	               	 exit 1
 		       else
 	                 echo "SHA-256 hashes match"
@@ -72,4 +72,3 @@ case $1 in
 		exit 1
 	;;
 esac
-
