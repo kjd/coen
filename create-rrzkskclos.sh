@@ -68,7 +68,7 @@ apt-get install --no-install-recommends --yes \
     iproute2 ifupdown pciutils usbutils dosfstools eject exfat-utils \
     vim links2 xpdf cups cups-bsd enscript libbsd-dev tree openssl less iputils-ping \
     xserver-xorg-core xserver-xorg xfce4 xfce4-terminal xfce4-panel lightdm system-config-printer \
-    xterm gvfs thunar-volman
+    xterm gvfs thunar-volman xfce4-power-manager
 apt-get --yes --purge autoremove
 apt-get --yes clean
 EOF
