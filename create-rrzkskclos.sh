@@ -170,17 +170,13 @@ install -p -m 644 ./system-config-printer.desktop $WD/chroot/etc/xdg/autostart/
 # just in case, anyway it is not installed
 rm $WD/chroot/etc/xdg/autostart/xscreensaver.desktop
 
-# Managing HSMFD, HSMFD_ and KSRFD
+# Managing HSMFD, HSMFD1 and KSRFD
 cat > $WD/chroot/etc/udev/rules.d/99-udisks2.rules << EOF
 # UDISKS_FILESYSTEM_SHARED
 # ==1: mount filesystem to a shared directory (/media/VolumeName)
 # ==0: mount filesystem to a private directory (/run/media/$USER/VolumeName)
 # See udisks(8)
 ENV{ID_FS_USAGE}=="filesystem|other|crypto", ENV{UDISKS_FILESYSTEM_SHARED}="1"
-EOF
-# Creating Symbolic Link to HSMFD_
-cat << EOF | chroot $WD/chroot
-ln -s /media/HSMFD1 /media/HSMFD_
 EOF
 
 # Creating boot directories
