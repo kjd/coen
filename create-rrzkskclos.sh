@@ -87,17 +87,27 @@ auto eth0
 iface eth0 inet static
   address 192.168.0.1
   netmask 255.255.255.0
-  network 192.168.0.0
-  broadcast 192.168.0.255
-  gateway 192.168.0.254
+  up ip route add 192.168.0.0/24 dev eth0 proto kernel scope link src 192.168.0.1 table 10
+  up ip route add default via 192.168.0.2 dev eth0 table 10
+  up ip rule add from 192.168.0.1 lookup 10
 
 auto eth1
 iface eth1 inet static
   address 192.168.0.3
   netmask 255.255.255.0
-  network 192.168.0.0
-  broadcast 192.168.0.255
-  gateway 192.168.0.254
+  up ip route add 192.168.0.0/24 dev eth1 proto kernel scope link src 192.168.0.3 table 30
+  up ip route add default via 192.168.0.2 dev eth1 table 30
+  up ip rule add from 192.168.0.3 lookup 30
+
+## eth0 is the default interface
+## to use eth1, eth0 MUST be down or without IP because this kernel can't handle multiples route
+## 1) Disble eth0: ip link set eth1 down // enable up
+## 2) Remove IP: ip addr del 192.168.0.1/24 dev eth0 // Assig add
+## 3) Check IP: ip addr show
+## 4) Check Route: ip route show // routel
+## 5) Add Static Route: ip route add 192.168.0.2/24 via 192.168.0.1 dev eth0
+## 6) Remove Static Route: ip route del 192.168.0.02/24
+## 7) Default Gateway: ip route add default via 192.168.0.2
 EOF
 
 # AEP Software
