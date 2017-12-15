@@ -7,71 +7,36 @@ set -x
 set -e
 set -u
 
-DATE=20171011 #`date +%Y%m%d` # Current date or selected date
+DATE=20171210 #`date +%Y%m%d` # Current date or selected date
 export SOURCE_DATE_EPOCH="$(date --utc --date="$DATE" +%s)" # defined by reproducible-builds.org.
 export SOURCE_DATE_YYYYMMDD="$(date --utc --date="$DATE" +%Y%m%d)"
 
-ROOT_UID=0	# Only users with $UID 0 have root privileges
 WD=RRZKSKCLOS-$DATE	# Working directory to create the ISO for Reproducible Root Key Signing Key Ceremony Live Operating System
 arch=amd64 # Target architecture
-dist=stable # Distribution
-mirror=http://ftp.us.debian.org/debian/
-
-# Confirmation
-echo "Warning this can be dangerous. It will use chroot command to remove packages, changes configurations, etc. \
-So, if something is going wrong can change from your host system rather than from the Live CD image. \
-You need to be root and execute under your own responsibility"
-read -p "Are you sure to continue [y/N]? " -n 1 -r
-echo    # Move to a new line
-if [[ ! $REPLY =~ ^[Yy]$ ]]
-then
-    [[ "$0" = "$BASH_SOURCE" ]] && exit 1 || return 1 # handle exits from shell or function but don't exit interactive shell
-fi
-
-# Run as root
-if [ "$UID" -ne "$ROOT_UID" ]
-then
-  echo "Must be root to run this script."
-  exit 1
-fi
-
-# Checking squashfs-tools
-command -v mksquashfs >/dev/null 2>&1 || { echo >&2 "Please install (with XZ support) the last squashfs-tools"; exit 1; }
-
-# Checking xorriso
-command -v xorriso >/dev/null 2>&1 || { echo >&2 "Please install xorriso"; exit 1; }
-
-# Checking debootstrap
-command -v debootstrap >/dev/null 2>&1 || { echo >&2 "Please install debootstrap"; exit 1; }
-
+dist=stretch # Distribution
 
 # Creating a working directory
 mkdir $WD
 
 # Setting uo the base Debian environment
-debootstrap \
-    --arch=$arch \
-    --variant=minbase \
-    $dist $WD/chroot \
-    $mirror
+debuerreotype-init $WD/chroot $dist $DATE --arch=$arch
 
 # Chroot to the new Debian environment
-cat << EOF | chroot $WD/chroot
-echo "RRZKSKCLOS" > /etc/hostname
-passwd -d root
-export DEBIAN_FRONTEND=noninteractive
-apt-get update
-apt-get install --no-install-recommends --yes \
+debuerreotype-chroot $WD/chroot echo "RRZKSKCLOS" > /etc/hostname
+debuerreotype-chroot $WD/chroot passwd -d root
+debuerreotype-chroot $WD/chroot export DEBIAN_FRONTEND=noninteractive
+debuerreotype-apt-get $WD/chroot update
+debuerreotype-apt-get $WD/chroot install --no-install-recommends --yes \
     linux-image-amd64 live-boot systemd-sysv \
     syslinux syslinux-common isolinux
-apt-get install --no-install-recommends --yes \
+debuerreotype-apt-get $WD/chroot install --no-install-recommends --yes \
     iproute2 ifupdown pciutils usbutils dosfstools eject exfat-utils \
     vim links2 xpdf cups cups-bsd enscript libbsd-dev tree openssl less iputils-ping \
     xserver-xorg-core xserver-xorg xfce4 xfce4-terminal xfce4-panel lightdm system-config-printer \
     xterm gvfs thunar-volman xfce4-power-manager
-apt-get --yes --purge autoremove
-apt-get --yes clean
-EOF
+debuerreotype-apt-get $WD/chroot --yes --purge autoremove
+debuerreotype-apt-get $WD/chroot --yes clean
+debuerreotype-fixup $WD/chroot
 
 echo "Setting network"
 cat > $WD/chroot/etc/hosts << EOF
@@ -117,22 +82,22 @@ install -m 755 -d $WD/chroot/opt/Keyper
 install -m 755 -d $WD/chroot/opt/Keyper/bin
 install -m 755 -d $WD/chroot/opt/Keyper/PKCS11Provider
 install -m 755 -d $WD/chroot/opt/Keyper/docs
-install -p -m 555 ./opt/Keyper/bin/*              $WD/chroot/opt/Keyper/bin
-install -p -m 444 ./opt/Keyper/PKCS11Provider/*   $WD/chroot/opt/Keyper/PKCS11Provider
-install -p -m 444 ./opt/Keyper/docs/*             $WD/chroot/opt/Keyper/docs
+install -p -m 555 ./configs/Keyper/bin/*              $WD/chroot/opt/Keyper/bin
+install -p -m 444 ./configs/Keyper/PKCS11Provider/*   $WD/chroot/opt/Keyper/PKCS11Provider
+install -p -m 444 ./configs/Keyper/docs/*             $WD/chroot/opt/Keyper/docs
 
 # ICANN Software & Scripts
 echo "Instaling ICANN Software and Scripts"
 install -m 755 -d $WD/chroot/opt/icann
 install -m 755 -d $WD/chroot/opt/icann/bin
 install -m 755 -d $WD/chroot/opt/icann/dist
-install -p -m 555 ./opt/icann/bin/*   $WD/chroot/opt/icann/bin
-install -p -m 555 ./opt/icann/dist/*  $WD/chroot/opt/icann/dist
+install -p -m 555 ./configs/icann/bin/*   $WD/chroot/opt/icann/bin
+install -p -m 555 ./configs/icann/dist/*  $WD/chroot/opt/icann/dist
 
 # DNSSEC Configurations Files
 echo "Instaling DNSSEC Configurations Files"
 install -m 755 -d $WD/chroot/opt/dnssec
-install -p -m 444 ./opt/dnssec/*    $WD/chroot/opt/dnssec
+install -p -m 444 ./configs/dnssec/*    $WD/chroot/opt/dnssec
 
 # Profile in .bashrc to work with xfce terminal
 echo "export PATH=:/opt/icann/bin:/opt/Keyper/bin:\$PATH" >> $WD/chroot/root/.bashrc
@@ -172,11 +137,11 @@ sed -i '/^[^#].*pam_lastlog\.so/s/^/# /' $WD/chroot/etc/pam.d/login
 echo "Custom XFCE"
 # xfce panel, unlock, power off, desktop configuration
 mkdir -p $WD/chroot/root/.config/xfce4/xfconf/xfce-perchannel-xml
-install -p -m 644 ./.config/xfce4/xfconf/xfce-perchannel-xml/*  $WD/chroot/root/.config/xfce4/xfconf/xfce-perchannel-xml
+install -p -m 644 ./configs/xfce-perchannel-xml/*  $WD/chroot/root/.config/xfce4/xfconf/xfce-perchannel-xml
 # Terminal with 2 tabs
-install -p -m 644 ./xfce4-terminal.desktop $WD/chroot/etc/xdg/autostart/
+install -p -m 644 ./configs/xfce4-terminal.desktop $WD/chroot/etc/xdg/autostart/
 # Executing Printer Config
-install -p -m 644 ./system-config-printer.desktop $WD/chroot/etc/xdg/autostart/
+install -p -m 644 ./configs/system-config-printer.desktop $WD/chroot/etc/xdg/autostart/
 # just in case, anyway it is not installed
 rm $WD/chroot/etc/xdg/autostart/xscreensaver.desktop
 
@@ -194,7 +159,7 @@ mkdir -p $WD/image/live
 mkdir -p $WD/image/isolinux
 
 # Compressing the chroot environment into a squashfs
-mksquashfs $WD/chroot/ $WD/image/live/filesystem.squashfs -e boot -noappend -comp xz
+./tools/mksquashfs $WD/chroot/ $WD/image/live/filesystem.squashfs -e boot -noappend -comp xz
 
 # Setting permissions for squashfs.img
 chmod 644 $WD/image/live/filesystem.squashfs

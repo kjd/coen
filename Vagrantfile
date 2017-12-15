@@ -71,9 +71,12 @@ Vagrant.configure("2") do |config|
   # SHELL
   config.vm.provision "shell", inline: <<-SHELL
     export DEBIAN_FRONTEND=noninteractive
+    echo "deb http://ftp.us.debian.org/debian/ sid main" >> /etc/apt/sources.list
     apt-get update
-    apt-get install --no-install-recommends --yes\
+    apt-get install --no-install-recommends --yes -t stretch\
     liblzo2-2 xorriso
-  
+    apt-get install --no-install-recommends --yes -t sid\
+    debuerreotype
+    ./create-rrzkskclos.sh
   SHELL
 end
