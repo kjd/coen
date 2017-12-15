@@ -7,11 +7,12 @@ set -x
 set -e
 set -u
 
+release=0.1.0 # release number
 DATE=20171210 #`date +%Y%m%d` # Current date or selected date
 export SOURCE_DATE_EPOCH="$(date --utc --date="$DATE" +%s)" # defined by reproducible-builds.org.
 export SOURCE_DATE_YYYYMMDD="$(date --utc --date="$DATE" +%Y%m%d)"
 
-WD=/vagrant/RRZKSKCLOS-$DATE	# Working directory to create the ISO for Reproducible Root Key Signing Key Ceremony Live Operating System
+WD=/vagrant/RRZKSKCLOS-$release-$DATE	# Working directory to create the ISO for Reproducible Root Key Signing Key Ceremony Live Operating System
 CONF=/vagrant/configs # Configurations Files
 TOOL=/vagrant/tools # Tools
 arch=amd64 # Target architecture
