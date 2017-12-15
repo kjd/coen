@@ -10,7 +10,6 @@ set -u
 DATE=20171210 #`date +%Y%m%d` # Current date or selected date
 export SOURCE_DATE_EPOCH="$(date --utc --date="$DATE" +%s)" # defined by reproducible-builds.org.
 export SOURCE_DATE_YYYYMMDD="$(date --utc --date="$DATE" +%Y%m%d)"
-export DEBIAN_FRONTEND=noninteractive
 
 WD=RRZKSKCLOS-$DATE	# Working directory to create the ISO for Reproducible Root Key Signing Key Ceremony Live Operating System
 arch=amd64 # Target architecture
@@ -26,10 +25,12 @@ debuerreotype-init $WD/chroot $dist $DATE --arch=$arch
 debuerreotype-chroot $WD/chroot echo "RRZKSKCLOS" > /etc/hostname
 debuerreotype-chroot $WD/chroot passwd -d root
 debuerreotype-apt-get $WD/chroot update
-debuerreotype-apt-get $WD/chroot install --no-install-recommends --yes \
+debuerreotype-chroot $WD/chroot DEBIAN_FRONTEND=noninteractive apt-get -o Acquire::Check-Valid-Until=false install \
+    --no-install-recommends --yes \
     linux-image-amd64 live-boot systemd-sysv \
     syslinux syslinux-common isolinux
-debuerreotype-apt-get $WD/chroot install --no-install-recommends --yes \
+debuerreotype-chroot $WD/chroot DEBIAN_FRONTEND=noninteractive apt-get -o Acquire::Check-Valid-Until=false install \
+    --no-install-recommends --yes \
     iproute2 ifupdown pciutils usbutils dosfstools eject exfat-utils \
     vim links2 xpdf cups cups-bsd enscript libbsd-dev tree openssl less iputils-ping \
     xserver-xorg-core xserver-xorg xfce4 xfce4-terminal xfce4-panel lightdm system-config-printer \
