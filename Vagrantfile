@@ -74,9 +74,9 @@ Vagrant.configure("2") do |config|
     echo "deb http://ftp.us.debian.org/debian/ sid main" >> /etc/apt/sources.list
     apt-get update
     apt-get install --no-install-recommends --yes -t stretch\
-    liblzo2-2 xorriso
+    liblzo2-2 xorriso debootstrap
     apt-get install --no-install-recommends --yes -t sid\
     debuerreotype
-    ./create-rrzkskclos.sh
+    /vagrant/create-rrzkskclos.sh
   SHELL
 end
