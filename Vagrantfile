@@ -70,12 +70,11 @@ Vagrant.configure("2") do |config|
   #   apt-get install -y apache2
   # SHELL
   config.vm.provision "shell", inline: <<-SHELL
-    export DEBIAN_FRONTEND=noninteractive
     echo "deb http://ftp.us.debian.org/debian/ sid main" >> /etc/apt/sources.list
     apt-get update
-    apt-get install --no-install-recommends --yes -t stretch\
+    DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes -t stretch\
     liblzo2-2 xorriso debootstrap
-    apt-get install --no-install-recommends --yes -t sid\
+    DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes -t sid\
     debuerreotype
     /vagrant/create-rrzkskclos.sh
   SHELL
