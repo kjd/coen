@@ -10,6 +10,7 @@ set -u
 DATE=20171210 #`date +%Y%m%d` # Current date or selected date
 export SOURCE_DATE_EPOCH="$(date --utc --date="$DATE" +%s)" # defined by reproducible-builds.org.
 export SOURCE_DATE_YYYYMMDD="$(date --utc --date="$DATE" +%Y%m%d)"
+export DEBIAN_FRONTEND=noninteractive
 
 WD=RRZKSKCLOS-$DATE	# Working directory to create the ISO for Reproducible Root Key Signing Key Ceremony Live Operating System
 arch=amd64 # Target architecture
@@ -24,7 +25,6 @@ debuerreotype-init $WD/chroot $dist $DATE --arch=$arch
 # Chroot to the new Debian environment
 debuerreotype-chroot $WD/chroot echo "RRZKSKCLOS" > /etc/hostname
 debuerreotype-chroot $WD/chroot passwd -d root
-debuerreotype-chroot $WD/chroot export DEBIAN_FRONTEND=noninteractive
 debuerreotype-apt-get $WD/chroot update
 debuerreotype-apt-get $WD/chroot install --no-install-recommends --yes \
     linux-image-amd64 live-boot systemd-sysv \
