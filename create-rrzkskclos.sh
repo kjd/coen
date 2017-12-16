@@ -89,7 +89,7 @@ install -m 755 -d $WD/chroot/opt/Keyper/PKCS11Provider
 install -m 755 -d $WD/chroot/opt/Keyper/docs
 install -p -m 555 $CONF/Keyper/bin/*              $WD/chroot/opt/Keyper/bin
 install -p -m 444 $CONF/Keyper/PKCS11Provider/*   $WD/chroot/opt/Keyper/PKCS11Provider
-install -p -m 444 $CONF/configs/Keyper/docs/*     $WD/chroot/opt/Keyper/docs
+install -p -m 444 $CONF/Keyper/docs/*             $WD/chroot/opt/Keyper/docs
 
 # ICANN Software & Scripts
 echo "Instaling ICANN Software and Scripts"
@@ -210,6 +210,6 @@ xorriso -outdev $WD.iso -volid ${WD/-/_} \
  -boot_image isolinux partition_entry=gpt_basdat
 
 ## Carefully removing working directory
-rm -rf $WD
+#rm -rf $WD
 
 # END
