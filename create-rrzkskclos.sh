@@ -11,12 +11,12 @@ release=0.1.0 # release number
 DATE=20171210 #`date +%Y%m%d` # Current date or selected date
 export SOURCE_DATE_EPOCH="$(date --utc --date="$DATE" +%s)" # defined by reproducible-builds.org.
 
-WD=/opt/RRZKSKCLOS-$release-$DATE	# Working directory to create the ISO for Reproducible Root Key Signing Key Ceremony Live Operating System
+WD=/opt/RRZKSKCLOS-${release}-${DATE}	# Working directory to create the ISO for Reproducible Root Key Signing Key Ceremony Live Operating System
 CONF=/vagrant/configs # Configurations Files
 TOOL=/vagrant/tools # Tools
 arch=amd64 # Target architecture
 dist=stretch # Distribution
-
+NAME=RRZKSKCLOS_${release}_${DATE}
 # Creating a working directory
 mkdir -p $WD
 
@@ -203,7 +203,7 @@ cp -p $WD/chroot/usr/share/misc/pci.ids $WD/image/isolinux/
 
 ## Creating the iso
 echo "Creating the iso"
-xorriso -outdev $WD.iso -volid RRZKSKCLOS_$release_$DATE \
+xorriso -outdev $WD.iso -volid $NAME \
  -map $WD/image/ / -chmod 0755 / -- -boot_image isolinux dir=/isolinux \
  -boot_image isolinux system_area=$WD/chroot/usr/lib/ISOLINUX/isohdpfx.bin \
  -boot_image isolinux partition_entry=gpt_basdat
