@@ -203,13 +203,13 @@ cp -p $WD/chroot/usr/share/misc/pci.ids $WD/image/isolinux/
 
 ## Creating the iso
 echo "Creating the iso"
-xorriso -outdev $WD.iso -volid $NAME \
+xorriso -outdev ${WD}.iso -volid $NAME \
  -map $WD/image/ / -chmod 0755 / -- -boot_image isolinux dir=/isolinux \
  -boot_image isolinux system_area=$WD/chroot/usr/lib/ISOLINUX/isohdpfx.bin \
  -boot_image isolinux partition_entry=gpt_basdat
 
 ## Coping the iso to the shared folder
-cp -p /opt/$WD.iso /vagrant/
+cp -p ${WD}.iso /vagrant/
 
 ## Carefully removing working directory
 #rm -rf $WD
