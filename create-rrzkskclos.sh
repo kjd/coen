@@ -148,7 +148,7 @@ install -p -m 644 $CONF/xfce4-terminal.desktop $WD/chroot/etc/xdg/autostart/
 # Executing Printer Config
 install -p -m 644 $CONF/system-config-printer.desktop $WD/chroot/etc/xdg/autostart/
 # just in case, anyway it is not installed
-rm $WD/chroot/etc/xdg/autostart/xscreensaver.desktop
+rm -f $WD/chroot/etc/xdg/autostart/xscreensaver.desktop
 
 # Managing HSMFD, HSMFD1 and KSRFD
 cat > $WD/chroot/etc/udev/rules.d/99-udisks2.rules << EOF

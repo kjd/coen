@@ -6,7 +6,7 @@ set -e
 set -u
 
 echo "Truncating log files"
-for file in $(find /var/log/ -type f); do
+for file in $(find $WD/chroot/var/log/ -type f); do
 	: > "${file}"
 done
 

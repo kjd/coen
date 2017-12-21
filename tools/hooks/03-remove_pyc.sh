@@ -7,6 +7,6 @@ set -u
 
 # Python byte code
 echo "Removing *.pyc"
-find /usr -type f -name "*.pyc" -delete
+find $WD/chroot/usr -type f -name "*.pyc" -delete
 
 # END
