@@ -23,6 +23,9 @@ fi
 # Checking vagrant
 command -v vagrant >/dev/null 2>&1 || { echo >&2 "Please install vagrant"; exit 1; }
 
+# Destroy just in case previos virtual machine
+vagrant destroy
+# Init vagrant
 vagrant up
 
 # END
