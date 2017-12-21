@@ -28,6 +28,6 @@ fi
 
 debuerreotype-chroot $WD/chroot dpkg -i /tmp/fontconfig_2.11.0-6.7.0tails4_amd64.deb
 
-rm /tmp/fontconfig_2.11.0-6.7.0tails4_amd64.deb
+rm $WD/chroot/tmp/fontconfig_2.11.0-6.7.0tails4_amd64.deb
 
 # END
