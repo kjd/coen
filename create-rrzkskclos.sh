@@ -14,6 +14,7 @@ export SOURCE_DATE_EPOCH="$(date --utc --date="$DATE" +%s)" # defined by reprodu
 WD=/opt/RRZKSKCLOS-${release}-${DATE}	# Working directory to create the ISO for Reproducible Root Key Signing Key Ceremony Live Operating System
 CONF=/vagrant/configs # Configurations Files
 TOOL=/vagrant/tools # Tools
+HOOKS=/vagrant/tools/hooks # Hooks
 arch=amd64 # Target architecture
 dist=stretch # Distribution
 NAME=RRZKSKCLOS_${release}_${DATE}
@@ -162,6 +163,12 @@ EOF
 mkdir -p $WD/image/live
 mkdir -p $WD/image/isolinux
 
+# Applying hooks
+for fixes in $HOOKS/*
+  do
+    $fixes
+done
+
 # Compressing the chroot environment into a squashfs
 $TOOL/mksquashfs $WD/chroot/ $WD/image/live/filesystem.squashfs -e boot -noappend -comp xz
 
@@ -211,7 +218,7 @@ xorriso -outdev ${WD}.iso -volid $NAME \
 ## Coping the iso to the shared folder
 cp -p ${WD}.iso /vagrant/
 
-## Carefully removing working directory
-#rm -rf $WD
+## Destroy the virtual machine
+#vagrant destroy
 
 # END
