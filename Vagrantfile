@@ -76,8 +76,8 @@ Vagrant.configure("2") do |config|
     liblzo2-2 xorriso debootstrap
     DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes -t sid\
     debuerreotype
-    sed -i '/sid/d' /etc/apt/sources.list
-    apt-get update
     /vagrant/create-rrzkskclos.sh
   SHELL
 end
+
+# END
