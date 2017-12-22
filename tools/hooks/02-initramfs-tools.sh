@@ -21,7 +21,7 @@ do
 	wget --directory-prefix=$WD/chroot/tmp/ https://deb.tails.boum.org/pool/main/i/initramfs-tools/$1
 	echo "Calculating SHA-256 HASH of the $1"
 	hash=$(sha256sum < "$WD/chroot/tmp/$1")
-		if [ "$hash" != "$2" ]
+		if [ "$hash" != "$2  -" ] # OMG this is bad, but it works  
 		then
 			echo "ERROR: SHA-256 hashes mismatched"
 			exit 1
