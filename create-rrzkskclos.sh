@@ -209,6 +209,11 @@ cp -p $WD/chroot/usr/lib/syslinux/modules/bios/libcom32.c32 $WD/image/isolinux/
 cp -p $WD/chroot/usr/lib/syslinux/modules/bios/libgpl.c32 $WD/image/isolinux/
 cp -p $WD/chroot/usr/share/misc/pci.ids $WD/image/isolinux/
 
+# Fixing main folder timestamps
+find "$WD/image" \
+	-newermt "@$SOURCE_DATE_EPOCH" \
+	-exec touch --no-dereference --date="@$SOURCE_DATE_EPOCH" '{}' +
+
 ## Creating the iso
 echo "Creating the iso"
 xorriso -outdev ${WD}.iso -volid $NAME \
