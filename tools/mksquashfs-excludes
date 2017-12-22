@@ -1,0 +1,3 @@
+boot/*
+tmp/*
+var/lib/apt/lists/*

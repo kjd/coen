@@ -37,6 +37,8 @@ debuerreotype-chroot $WD/chroot DEBIAN_FRONTEND=noninteractive apt-get -o Acquir
     vim links2 xpdf cups cups-bsd enscript libbsd-dev tree openssl less iputils-ping \
     xserver-xorg-core xserver-xorg xfce4 xfce4-terminal xfce4-panel lightdm system-config-printer \
     xterm gvfs thunar-volman xfce4-power-manager
+debuerreotype-apt-get $WD/chroot --yes --purge autoremove
+debuerreotype-apt-get $WD/chroot --yes clean
 
 # Applying hooks
 for fixes in $HOOKS/*
@@ -44,8 +46,6 @@ do
   $fixes
 done
 
-debuerreotype-apt-get $WD/chroot --yes --purge autoremove
-debuerreotype-apt-get $WD/chroot --yes clean
 debuerreotype-fixup $WD/chroot
 
 echo "Setting network"
@@ -171,7 +171,7 @@ mkdir -p $WD/image/live
 mkdir -p $WD/image/isolinux
 
 # Compressing the chroot environment into a squashfs
-$TOOL/mksquashfs $WD/chroot/ $WD/image/live/filesystem.squashfs -e boot -noappend -comp xz
+$TOOL/mksquashfs $WD/chroot/ $WD/image/live/filesystem.squashfs -ef $TOOL/mksquashfs-excludes -noappend -comp xz
 
 # Setting permissions for squashfs.img
 chmod 644 $WD/image/live/filesystem.squashfs
