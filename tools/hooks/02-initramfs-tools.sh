@@ -17,11 +17,11 @@ INITTOOLSHA256="36c39407b505015a80e666726018edad37211d594b862238475d59d3de4e0da9
 
 for pkg in "${initcore} ${INITTOOLCORESHA256}" "${init} ${INITTOOLSHA256}"
 do
-	set -- $pkg # parses variable "pkg" $1 name and $2 hash
+	set -- $pkg # parses variable "pkg" $1 name and $2 hash and $3 "-"
 	wget --directory-prefix=$WD/chroot/tmp/ https://deb.tails.boum.org/pool/main/i/initramfs-tools/$1
 	echo "Calculating SHA-256 HASH of the $1"
 	hash=$(sha256sum < "$WD/chroot/tmp/$1")
-		if [ "$hash" != "$2  -" ] # OMG this is bad, but it works  
+		if [ "$hash" != "$2  $3" ]
 		then
 			echo "ERROR: SHA-256 hashes mismatched"
 			exit 1
