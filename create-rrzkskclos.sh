@@ -222,7 +222,7 @@ xorriso -outdev ${WD}.iso -volid $NAME \
  -boot_image isolinux partition_entry=gpt_basdat
 
 ## Coping the iso to the shared folder
-cp -p ${WD}.iso /vagrant/
+cp ${WD}.iso /vagrant/
 
 ## Destroy the virtual machine
 #vagrant destroy
