@@ -10,7 +10,7 @@ set -u
 # Confirmation
 echo "Warning this can be dangerous. It will use chroot command to remove packages, changes configurations, etc. \
 So, if something is going wrong can change from your host system rather than from the Live CD image. \
-Also, RRZKSKCLOS requires the KVM virtual machine hypervisor to be available, a minimum of 1 GB of free RAM and a maximum of \
+Also, RRZKSKCLOS requires the KVM virtual machine hypervisor to be available, a minimum of 1 GB of free RAM and at lease \
 5 GB of free storage.
 You will execute it under your own responsibility"
 read -p "Are you sure to continue [y/N]? " -n 1 -r
