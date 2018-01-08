@@ -10,9 +10,7 @@ set -u
 # Confirmation
 echo "Warning this can be dangerous. It will use chroot command to remove packages, changes configurations, etc. \
 So, if something is going wrong can change from your host system rather than from the Live CD image. \
-Also, RRZKSKCLOS requires the KVM virtual machine hypervisor to be available, a minimum of 1 GB of free RAM and at lease \
-5 GB of free storage.
-You will execute it under your own responsibility"
+You will execute it under your own responsibility."
 read -p "Are you sure to continue [y/N]? " -n 1 -r
 echo    # Move to a new line
 if [[ ! $REPLY =~ ^[Yy]$ ]]
@@ -23,8 +21,73 @@ fi
 # Checking vagrant
 command -v vagrant >/dev/null 2>&1 || { echo >&2 "Please install vagrant"; exit 1; }
 
-# Destroy just in case previos virtual machine
-vagrant destroy
+cat > Vagrantfile << EOF
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "debian/stretch64"
+  config.vm.box_version = "9.1.0"
+  config.vm.provider "libvirt"
+
+#  config.vm.synced_folder ".", "/vagrant", nfs: true, nfs_version: 4, nfs_udp: false
+
+  config.vm.provider "libvirt" do |libvirt|
+    libvirt.memory = "1024"
+#    libvirt.driver = "qemu"
+  end
+
+  config.vm.provision "shell", inline: <<-SHELL
+    echo "deb http://ftp.us.debian.org/debian/ sid main" >> /etc/apt/sources.list
+    apt-get update
+    DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes -t stretch\
+    liblzo2-2 xorriso debootstrap
+    DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes -t sid\
+    debuerreotype
+    /vagrant/create-rrzkskclos.sh
+  SHELL
+end
+
+EOF
+
+usage ()
+	{
+	echo "Usage:$0 [options]"
+	echo "Options:"
+	echo " -h | --help Show this message"
+	echo " --force-qemu Use qemu instead of kvm"
+	echo " --force-nfs-tcp Use TCP instead of UDP for NFSv4"
+	}
+
+# No arguments
+if [ "$#" -eq 0 ] ;
+  then
+    # Init vagrant
+    vagrant up
+    exit 0
+fi
+
+while [ "${1-}" != "" ]
+  do
+    case $1 in
+      -h | --help )
+        usage
+        exit 1
+      ;;
+      --force-qemu )
+        sed -i '/qemu/s/^#//' Vagrantfile
+      ;;
+      --force-nfs-tcp )
+        sed -i '/nfs_udp/s/^#//' Vagrantfile
+      ;;
+      * )
+		    usage
+		    exit 1
+      ;;
+    esac
+    shift
+  done
+
 # Init vagrant
 vagrant up
 
