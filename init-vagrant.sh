@@ -52,11 +52,11 @@ EOF
 
 usage ()
 	{
-	echo "Usage:$0 [options]"
-	echo "Options:"
-	echo " -h | --help Show this message"
-	echo " --force-qemu Use qemu instead of kvm"
-	echo " --force-nfs-tcp Use TCP instead of UDP for NFSv4"
+	echo "Usage:$0 [OPTION]"
+	echo "The RRZKSKCLOS Vagrantfile for vagrant up"
+	echo " -h, --help      Show this message"
+	echo " --force-qemu    Force use QEMU instead of KVM"
+	echo " --force-nfs-tcp Force use TCP instead of UDP for NFSv4"
 	}
 
 # No arguments
@@ -81,7 +81,8 @@ while [ "${1-}" != "" ]
         sed -i '/nfs_udp/s/^#//' Vagrantfile
       ;;
       * )
-		    usage
+        echo "$0: unrecognized option $1"
+        echo "Try $0 --help for more information."
 		    exit 1
       ;;
     esac
