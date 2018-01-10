@@ -237,7 +237,4 @@ newhash=$(sha256sum < "${WD}.iso")
       echo "And please send me an email."
   fi
 
-## Destroy the virtual machine
-vagrant destroy
-
 # END
