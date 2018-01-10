@@ -91,5 +91,5 @@ while [ "${1-}" != "" ]
 
 # Init vagrant
 vagrant up
-
+exit 0
 # END
