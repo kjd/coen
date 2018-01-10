@@ -14,5 +14,7 @@ cut -d: -f1 /etc/shadow | \
   xargs -L1 \
     chage --lastday \
       "$(($(date --utc --date "@${SOURCE_DATE_EPOCH}" "+%s") / 86400))"
+
+cp --preserve=timestamps /etc/shadow /etc/shadow-
 EOF
 # END

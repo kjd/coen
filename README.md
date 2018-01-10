@@ -185,7 +185,7 @@ sha256sum RRZKSKCLOS-0.1.0-20171210.iso
 And compare it with:
 
 ```
-dbb24d5c46e6e526088c8223871e9e97fe1c8307b6be6409c22e739bc63948ff  RRZKSKCLOS-0.1.0-20171210.iso
+
 ```
 
 Also you can verify the following signed message containing the checksum below:
@@ -194,17 +194,7 @@ Also you can verify the following signed message containing the checksum below:
 - Fingerprint = EC21 1197 7A47 2E31 9B29  2316 755A 6C09 C7D6 8CF8
 
 ```
------BEGIN PGP SIGNED MESSAGE-----
-Hash: SHA256
 
-dbb24d5c46e6e526088c8223871e9e97fe1c8307b6be6409c22e739bc63948ff  RRZKSKCLOS-0.1.0-20171210.iso
------BEGIN PGP SIGNATURE-----
-
-iHUEARYIAB0WIQRlSHxnJVvpY6DVpgWPFn76oiPglQUCWlVTmwAKCRCPFn76oiPg
-lbLRAP9GDq9qqLNQy3yG3A4tqvVB37R0jSyeEZWmhxiJlU5YoQEArUD3XixuOh5a
-A1Ngd21pb1/JC0CUPGp7NhiZm4NN/wc=
-=H7HG
------END PGP SIGNATURE-----
 ```
 
 - And please send me an email.
@@ -225,7 +215,9 @@ sudo apt-get install diffoscope
 sudo dnf install diffoscope
 ```
 
-And then download the RRZKSKCLOS image from https://drive.google.com/drive/folders/1Q50G_OmFWEEk2OKlXVbEkAc9Gxn-mL9E?usp=sharing and compare it with yours image:
+And then download the RRZKSKCLOS image from
+
+ and compare it with yours image:
 
 ```
 diffoscope \

@@ -9,7 +9,7 @@ set -u
 
 release=0.1.0 # release number
 DATE=20171210 #`date +%Y%m%d` # Current date or selected date
-SHASUM="dbb24d5c46e6e526088c8223871e9e97fe1c8307b6be6409c22e739bc63948ff  -"
+SHASUM="  -"
 export SOURCE_DATE_EPOCH="$(date --utc --date="$DATE" +%s)" # defined by reproducible-builds.org.
 
 export WD=/opt/RRZKSKCLOS-${release}-${DATE}	# Working directory to create the ISO for Reproducible Root Key Signing Key Ceremony Live Operating System
@@ -22,7 +22,7 @@ NAME=RRZKSKCLOS_${release}_${DATE}
 # Creating a working directory
 mkdir -p $WD
 
-# Setting uo the base Debian environment
+# Setting up the base Debian environment
 debuerreotype-init $WD/chroot $dist $DATE --arch=$arch
 
 # Chroot to the new Debian environment
@@ -46,8 +46,6 @@ for fixes in $HOOKS/*
 do
   $fixes
 done
-
-debuerreotype-fixup $WD/chroot
 
 echo "Setting network"
 echo "RRZKSKCLOS" > $WD/chroot/etc/hostname
@@ -170,6 +168,9 @@ EOF
 # Creating boot directories
 mkdir -p $WD/image/live
 mkdir -p $WD/image/isolinux
+
+# Fixing dates to SOURCE_DATE_EPOCH
+debuerreotype-fixup $WD/chroot
 
 # Compressing the chroot environment into a squashfs
 $TOOL/mksquashfs $WD/chroot/ $WD/image/live/filesystem.squashfs -ef $TOOL/mksquashfs-excludes -noappend -comp xz
