@@ -143,7 +143,7 @@ Execute the following command:
 
 ## Troubleshooting
 
-### Fails on “Waiting for domain to get an IP address. . . ”
+### Fails on "Waiting for domain to get an IP address. . ."
 
 There is a trick using `qemu` instead of `kvm` to avoid this error. Execute the following command:
 
@@ -160,6 +160,11 @@ Using TCP instead of UDP for NFSv4 can avoid this error. Execute the following c
 ./init-vagrant.sh --force-nfs-tcp
 ```
 > Read the warning message and type **Y** if you want to continue with the build process.
+
+### Had an Error and Wants to Try Again...
+
+If you have an unexpected error and you want to try again:
+Execute first `vagrant destroy` then `./init-vagrant.sh`
 
 ## Send me feedback!
 
