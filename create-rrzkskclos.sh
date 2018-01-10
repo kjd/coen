@@ -9,6 +9,7 @@ set -u
 
 release=0.1.0 # release number
 DATE=20171210 #`date +%Y%m%d` # Current date or selected date
+SHASUM="dbb24d5c46e6e526088c8223871e9e97fe1c8307b6be6409c22e739bc63948ff  -"
 export SOURCE_DATE_EPOCH="$(date --utc --date="$DATE" +%s)" # defined by reproducible-builds.org.
 
 export WD=/opt/RRZKSKCLOS-${release}-${DATE}	# Working directory to create the ISO for Reproducible Root Key Signing Key Ceremony Live Operating System
@@ -224,7 +225,19 @@ xorriso -outdev ${WD}.iso -volid $NAME \
 ## Coping the iso to the shared folder
 cp ${WD}.iso /vagrant/
 
+echo "Calculating SHA-256 HASH of the ${WD}.iso"
+newhash=$(sha256sum < "${WD}.iso")
+  if [ "$newhash" != "$SHASUM" ]
+    then
+      echo "ERROR: SHA-256 hashes mismatched reproduction failed :("
+      echo "Please send me an email."
+  else
+      echo "Congrats for successfully reproducing RRZKSKCLOS! ;)"
+      echo "You can compute the SHA-256 checksum of the resulting ISO image by your self."
+      echo "And please send me an email."
+  fi
+
 ## Destroy the virtual machine
-#vagrant destroy
+vagrant destroy
 
 # END
