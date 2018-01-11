@@ -85,7 +85,8 @@ Install the following dependencies:
 sudo dnf install \
     git \
     vagrant-libvirt \
-    nfs-utils && \
+    nfs-utils \
+    qemu && \
 sudo systemctl enable libvirtd && \
 sudo systemctl enable nfs-server && \
 sudo firewall-cmd --permanent --add-service=nfs && \
