@@ -10,7 +10,7 @@ The Root Zone Key Signing Key Ceremony Live Operating System is a binary distrib
 
 ## Reproducible to make The Root Zone Key Signing Key Ceremony Live Operating System more Trustworthy
 
-The idea behind this project is create a **Reproducible** ISO image to provide a verifiable process to increase
+The goal of this project is create a **Reproducible** ISO image to provide a verifiable process to increase
 confidence in the DNSSEC Key Signing Key (KSK) for the Root Zone.
 
 ### What are reproducible builds?
@@ -27,7 +27,7 @@ This project cannot be possible without:
 - The Reproducible Builds project: https://reproducible-builds.org/,
 - Debian as trust anchor:  https://wiki.debian.org/ReproducibleBuilds,
 - Debuerreotype a reproducible, snapshot-based Debian rootfs builder:  https://github.com/debuerreotype/debuerreotype, and
-- Tails: https://tails.boum.org/index.en.html
+- Tails or The Amnesic Incognito Live System: https://tails.boum.org/index.en.html
 
 ## Requirements for Build a RRZKSKCLOS ISO Image
 
@@ -163,12 +163,7 @@ vagrant destroy && \
 
 ### Fails on "mesg: ttyname failed: Inappropriate ioctl for device..."
 
-Probably you are not using the latest `vagrant` version. Try to execute the commands with `sudo` like the following:
-
-```
-vagrant destroy && \
-sudo ./init-vagrant.sh
-```
+Probably you are using an old `vagrant` version. Try to execute the commands with `sudo` even with the root user.
 
 ### Had an Error and Wants to Try Again...
 
@@ -194,7 +189,7 @@ sha256sum RRZKSKCLOS-0.1.0-20171210.iso
 And compare it with:
 
 ```
-
+879461abf6724a71e837b09307a7adf2c5e5a5f13df2d6e4f47b2a0b84a3b331  RRZKSKCLOS-0.1.0-20171210.iso
 ```
 
 Also you can verify the following signed message containing the checksum below:
@@ -203,7 +198,17 @@ Also you can verify the following signed message containing the checksum below:
 - Fingerprint = EC21 1197 7A47 2E31 9B29  2316 755A 6C09 C7D6 8CF8
 
 ```
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
 
+879461abf6724a71e837b09307a7adf2c5e5a5f13df2d6e4f47b2a0b84a3b331  RRZKSKCLOS-0.1.0-20171210.iso
+-----BEGIN PGP SIGNATURE-----
+
+iHUEARYIAB0WIQRlSHxnJVvpY6DVpgWPFn76oiPglQUCWle0sQAKCRCPFn76oiPg
+lcj5AQCY7tZs/i4A8fHTHF6B4VvOrz+PHGt9+OOGShdaCE+J6gEA/pjFIXeApM54
+BFt+gCxWextMPIVp86jLKzIcffywBQE=
+=7nKz
+-----END PGP SIGNATURE-----
 ```
 
 - And please send me an email.

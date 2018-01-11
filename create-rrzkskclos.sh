@@ -9,7 +9,7 @@ set -u
 
 release=0.1.0 # release number
 DATE=20171210 #`date +%Y%m%d` # Current date or selected date
-SHASUM="  -"
+SHASUM="879461abf6724a71e837b09307a7adf2c5e5a5f13df2d6e4f47b2a0b84a3b331  -"
 export SOURCE_DATE_EPOCH="$(date --utc --date="$DATE" +%s)" # defined by reproducible-builds.org.
 
 export WD=/opt/RRZKSKCLOS-${release}-${DATE}	# Working directory to create the ISO for Reproducible Root Key Signing Key Ceremony Live Operating System
