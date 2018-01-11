@@ -92,8 +92,8 @@ sudo firewall-cmd --permanent --add-service=nfs && \
 sudo firewall-cmd --permanent --add-service=rpc-bind && \
 sudo firewall-cmd --permanent --add-service=mountd && \
 sudo firewall-cmd --reload && \
-sudo service libvirtd start && \
-sudo service nfs-server start
+sudo systemctl start libvirtd  && \
+sudo systemctl start nfs-server
 ```
 
 #### Building as a non-root user
@@ -143,23 +143,32 @@ Execute the following command:
 
 ## Troubleshooting
 
-### Fails on "Waiting for domain to get an IP address. . ."
+### Fails on "Waiting for domain to get an IP address..."
 
 There is a trick using `qemu` instead of `kvm` to avoid this error. Execute the following command:
 
 ```
+vagrant destroy && \
 ./init-vagrant.sh --force-qemu
 ```
-> Read the warning message and type **Y** if you want to continue with the build process.
 
-### Fails on Mount NFS
+### Fails on "mount.nfs: requested NFS version or transport protocol is not supported..." or "mount.nfs: an incorrect mount option was specified..."
 
 Using TCP instead of UDP for NFSv4 can avoid this error. Execute the following command:
 
 ```
+vagrant destroy && \
 ./init-vagrant.sh --force-nfs-tcp
 ```
-> Read the warning message and type **Y** if you want to continue with the build process.
+
+### Fails on "mesg: ttyname failed: Inappropriate ioctl for device..."
+
+Probably you are not using the latest `vagrant` version. Try to execute the commands with `sudo` like the following:
+
+```
+vagrant destroy && \
+sudo ./init-vagrant.sh
+```
 
 ### Had an Error and Wants to Try Again...
 
