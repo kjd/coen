@@ -230,7 +230,7 @@ sudo dnf install diffoscope
 ```
 
 And then download the RRZKSKCLOS image from
-
+https://drive.google.com/drive/folders/1YZZ4QVFRa8-V3lW-0s_UHnhhTguM2kH3?usp=sharing
  and compare it with yours image:
 
 ```
