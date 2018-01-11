@@ -86,7 +86,7 @@ sudo dnf install \
     git \
     vagrant-libvirt \
     nfs-utils \
-    qemu \
+    qemu-system-x86 \
     libvirt-client && \
 sudo systemctl enable libvirtd && \
 sudo systemctl enable nfs-server && \
