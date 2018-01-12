@@ -180,7 +180,7 @@ Send me the error that show in your terminal session
 
 Congrats for successfully reproducing RRZKSKCLOS!
 
-You can compute the SHA-256 checksum of the resulting ISO image by your self:
+You can compute the SHA-256 checksum of the resulting ISO image by yourself:
 
 ```
 sha256sum RRZKSKCLOS-0.1.0-20171210.iso

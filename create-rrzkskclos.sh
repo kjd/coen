@@ -234,7 +234,7 @@ newhash=$(sha256sum < "${WD}.iso")
       echo "Please send me an email."
   else
       echo "Congrats for successfully reproducing RRZKSKCLOS! ;)"
-      echo "You can compute the SHA-256 checksum of the resulting ISO image by your self."
+      echo "You can compute the SHA-256 checksum of the resulting ISO image by yourself."
       echo "And please send me an email."
   fi
 
