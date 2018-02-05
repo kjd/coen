@@ -1,0 +1,28 @@
+#!/bin/bash
+#
+# install the printer HP LaserJet from the command line 
+# instead using system-config-printer
+
+# Check to see if the printer is connected
+usb="$(lpinfo -v 2>&1 | grep -E 'usb' )"
+
+if [ -z "$usb" ]
+then
+	echo "Printer is not connected"	
+	exit 1
+else
+	set -- $usb # parses variable "usb" $1 direct and $2 usb divice
+	echo "Instaling HP LaserJet"
+	lpadmin \
+		-p 'HP' \
+		-v "$2" \
+		-m 'drv:///sample.drv/laserjet.ppd' \
+		-o media=A4 \
+		-E 
+	# Set it as the default printer
+	lpadmin -d 'HP'
+	echo "Printing a test page"
+	lpr /usr/share/cups/data/testprint
+fi
+# END
+
