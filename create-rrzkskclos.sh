@@ -7,7 +7,7 @@ set -x
 set -e
 set -u
 
-release=0.1.0 # release number
+release=0.1.1 # release number
 DATE=20171210 #`date +%Y%m%d` # Current date or selected date
 SHASUM="879461abf6724a71e837b09307a7adf2c5e5a5f13df2d6e4f47b2a0b84a3b331  -"
 export SOURCE_DATE_EPOCH="$(date --utc --date="$DATE" +%s)" # defined by reproducible-builds.org.
@@ -63,27 +63,6 @@ auto eth0
 iface eth0 inet static
   address 192.168.0.1
   netmask 255.255.255.0
-  up ip route add 192.168.0.0/24 dev eth0 proto kernel scope link src 192.168.0.1 table 10
-  up ip route add default via 192.168.0.2 dev eth0 table 10
-  up ip rule add from 192.168.0.1 lookup 10
-
-auto eth1
-iface eth1 inet static
-  address 192.168.0.3
-  netmask 255.255.255.0
-  up ip route add 192.168.0.0/24 dev eth1 proto kernel scope link src 192.168.0.3 table 30
-  up ip route add default via 192.168.0.2 dev eth1 table 30
-  up ip rule add from 192.168.0.3 lookup 30
-
-## eth0 is the default interface
-## to use eth1, eth0 MUST be down or without IP because this kernel can't handle multiples route
-## 1) Disble eth0: ip link set eth1 down // enable up
-## 2) Remove IP: ip addr del 192.168.0.1/24 dev eth0 // Assig add
-## 3) Check IP: ip addr show
-## 4) Check Route: ip route show // routel
-## 5) Add Static Route: ip route add 192.168.0.2/24 via 192.168.0.1 dev eth0
-## 6) Remove Static Route: ip route del 192.168.0.02/24
-## 7) Default Gateway: ip route add default via 192.168.0.2
 EOF
 
 # AEP Software
@@ -151,8 +130,6 @@ mkdir -p $WD/chroot/root/.config/xfce4/xfconf/xfce-perchannel-xml
 install -p -m 644 $CONF/xfce-perchannel-xml/*  $WD/chroot/root/.config/xfce4/xfconf/xfce-perchannel-xml
 # Terminal with 2 tabs
 install -p -m 644 $CONF/xfce4-terminal.desktop $WD/chroot/etc/xdg/autostart/
-# Executing Printer Config
-install -p -m 644 $CONF/system-config-printer.desktop $WD/chroot/etc/xdg/autostart/
 # just in case, anyway it is not installed
 rm -f $WD/chroot/etc/xdg/autostart/xscreensaver.desktop
 
