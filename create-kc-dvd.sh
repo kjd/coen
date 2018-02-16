@@ -12,13 +12,13 @@ DATE=20171210 #`date +%Y%m%d` # Current date or selected date
 SHASUM="879461abf6724a71e837b09307a7adf2c5e5a5f13df2d6e4f47b2a0b84a3b331  -"
 export SOURCE_DATE_EPOCH="$(date --utc --date="$DATE" +%s)" # defined by reproducible-builds.org.
 
-export WD=/opt/RRZKSKCLOS-${release}-${DATE}	# Working directory to create the ISO for Reproducible Root Key Signing Key Ceremony Live Operating System
+export WD=/opt/KC-${release}-${DATE}	# Working directory to create the ISO for Reproducible Root Key Signing Key Ceremony Live Operating System
 CONF=/vagrant/configs # Configurations Files
 TOOL=/vagrant/tools # Tools
 HOOKS=/vagrant/tools/hooks # Hooks
 arch=amd64 # Target architecture
 dist=stretch # Distribution
-NAME=RRZKSKCLOS_${release}_${DATE}
+NAME=KC_${release}_${DATE}
 # Creating a working directory
 mkdir -p $WD
 
@@ -48,10 +48,10 @@ do
 done
 
 echo "Setting network"
-echo "RRZKSKCLOS" > $WD/chroot/etc/hostname
+echo "KC-${release}-${DATE}" > $WD/chroot/etc/hostname
 
 cat > $WD/chroot/etc/hosts << EOF
-127.0.0.1       localhost RRZKSKCLOS
+127.0.0.1       localhost KC-${release}-${DATE}
 192.168.0.2     hsm
 EOF
 
@@ -164,12 +164,12 @@ cat > $WD/image/isolinux/isolinux.cfg << EOF
 UI menu.c32
 
 prompt 0
-menu title RRZKSKCLOS
+menu title KC-${release}-${DATE}
 
 timeout 1
 
-label RRZKSKCLOS Live amd64
-menu label ^RRZKSKCLOS amd64
+label KC-${release}-${DATE} Live amd64
+menu label ^KC-${release}-${DATE} amd64
 menu default
 kernel /live/vmlinuz
 append initrd=/live/initrd.img boot=live locales=en_US.UTF-8 keymap=us language=us net.ifnames=0 timezone=Etc/UTC live-media=removable nopersistence selinux=0 STATICIP=frommedia modprobe.blacklist=pcspkr,hci_uart,btintel,btqca,btbcm,bluetooth,snd_hda_intel,snd_hda_codec_realtek,snd_soc_skl,snd_soc_skl_ipc,snd_soc_sst_ipc,snd_soc_sst_dsp,snd_hda_ext_core,snd_soc_sst_match,snd_soc_core,snd_compress,snd_hda_core,snd_pcm,snd_timer,snd,soundcore
@@ -210,7 +210,7 @@ newhash=$(sha256sum < "${WD}.iso")
       echo "ERROR: SHA-256 hashes mismatched reproduction failed :("
       echo "Please send me an email."
   else
-      echo "Congrats for successfully reproducing RRZKSKCLOS! ;)"
+      echo "Congrats for successfully reproducing KC-${release}-${DATE}! ;)"
       echo "You can compute the SHA-256 checksum of the resulting ISO image by yourself."
       echo "And please send me an email."
   fi

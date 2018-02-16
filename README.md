@@ -1,17 +1,15 @@
-# RRZKSKCLOS
-Reproducible Root Zone Key Signing Key Ceremony Live Operating System
+# Key Ceremony DVD
 
-The Root Zone Key Signing Key Ceremony Live Operating System is a binary distribution consisting of:
+The Key Ceremony DVD is a Live Operating System consisting of:
 
 - A custom Debian GNU/Linux Live CD,
 - The Key Management Tools https://github.com/iana-org/dnssec-keytools,
 - The AEP Keyper PKCS#11 provider, and
 - Assorted utilities.
 
-## Reproducible to make The Root Zone Key Signing Key Ceremony Live Operating System more Trustworthy
+## Reproducible ISO to make The Root Zone Key Signing Key Ceremony System more Trustworthy
 
-The goal of this project is create a **Reproducible** ISO image to provide a verifiable process to increase
-confidence in the DNSSEC Key Signing Key (KSK) for the Root Zone.
+This **Reproducible** ISO image provide a verifiable process to obtain the same hash every time at build the ISO to  increase the confidence in the DNSSEC Key Signing Key (KSK) for the Root Zone.
 
 ### What are reproducible builds?
 
@@ -29,9 +27,9 @@ This project cannot be possible without:
 - Debuerreotype a reproducible, snapshot-based Debian rootfs builder:  https://github.com/debuerreotype/debuerreotype, and
 - Tails or The Amnesic Incognito Live System: https://tails.boum.org/index.en.html
 
-## Requirements for Build a RRZKSKCLOS ISO Image
+## Requirements for Build the ISO Image
 
-Building RRZKSKCLOS requires:
+Building the ISO image requires:
 
 - The KVM virtual machine hypervisor. If is not available the build process will be slower.
 
@@ -114,13 +112,13 @@ Skip this section if you intend to build as root.
    newgrp vagrant
    ```
 
-## Build a RRZKSKCLOS ISO image
+## Build the ISO image
 
-Execute the following commands to build the RRZKSKCLOS ISO image:
+Execute the following commands to build the ISO image:
 
 ```
-git clone https://github.com/andrespavez/RRZKSKCLOS && \
-cd RRZKSKCLOS
+git clone https://github.com/andrespavez/kc-dvd && \
+cd kc-dvd
 ```
 
 ### Building with KVM
@@ -172,26 +170,26 @@ Probably you are using an old `vagrant` version. Try to execute the commands wit
 If you have an unexpected error and you want to try again:
 Execute first `vagrant destroy` then `./init-vagrant.sh`
 
-## Send me feedback!
+## Send us feedback!
 
 ### If the build failed
 
-Send me the error that show in your terminal session
+Please send us the error that show in your terminal session or create an issue.
 
 ### If the build succeeded and the checksums match (i.e. reproduction succeeded).
 
-Congrats for successfully reproducing RRZKSKCLOS!
+Congrats for successfully reproducing the ISO!
 
 You can compute the SHA-256 checksum of the resulting ISO image by yourself:
 
 ```
-sha256sum RRZKSKCLOS-0.1.0-20171210.iso
+sha256sum KC-0.1.1-20171210.iso
 ```
 
 And compare it with:
 
 ```
-879461abf6724a71e837b09307a7adf2c5e5a5f13df2d6e4f47b2a0b84a3b331  RRZKSKCLOS-0.1.0-20171210.iso
+  KC-0.1.1-20171210.iso
 ```
 
 Also you can verify the following signed message containing the checksum below:
@@ -203,21 +201,17 @@ Also you can verify the following signed message containing the checksum below:
 -----BEGIN PGP SIGNED MESSAGE-----
 Hash: SHA256
 
-879461abf6724a71e837b09307a7adf2c5e5a5f13df2d6e4f47b2a0b84a3b331  RRZKSKCLOS-0.1.0-20171210.iso
+
 -----BEGIN PGP SIGNATURE-----
 
-iHUEARYIAB0WIQRlSHxnJVvpY6DVpgWPFn76oiPglQUCWle0sQAKCRCPFn76oiPg
-lcj5AQCY7tZs/i4A8fHTHF6B4VvOrz+PHGt9+OOGShdaCE+J6gEA/pjFIXeApM54
-BFt+gCxWextMPIVp86jLKzIcffywBQE=
-=7nKz
 -----END PGP SIGNATURE-----
 ```
 
-- And please send me an email.
+- And please send us an email.
 
 ### If the build succeeded and the checksums differ (i.e. reproduction failed).
 
-Please help me to improve RRZKSKCLOS. Install `diffoscope` https://diffoscope.org/
+Please help us to improve it. Install `diffoscope` https://diffoscope.org/
 
 #### Debian
 
@@ -231,7 +225,7 @@ sudo apt-get install diffoscope
 sudo dnf install diffoscope
 ```
 
-And then download the RRZKSKCLOS image from
+And then download the image from
 https://drive.google.com/drive/folders/1YZZ4QVFRa8-V3lW-0s_UHnhhTguM2kH3?usp=sharing
  and compare it with yours image:
 
@@ -239,8 +233,8 @@ https://drive.google.com/drive/folders/1YZZ4QVFRa8-V3lW-0s_UHnhhTguM2kH3?usp=sha
 diffoscope \
   --text diffoscope.txt \
   --html diffoscope.html \
-  path/to/public/RRZKSKCLOS-0.1.0-20171210.iso \
-  path/to/your/RRZKSKCLOS-0.1.0-20171210.iso && \
+  path/to/public/KC-0.1.1-20171210.iso \
+  path/to/your/KC-0.1.1-20171210.iso && \
 bzip2 diffoscope.*
 ```
-Please send an email attaching one or both files if there are small.
+Please send us an email attaching one or both files if there are small or create an issue.

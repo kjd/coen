@@ -44,7 +44,7 @@ Vagrant.configure("2") do |config|
     liblzo2-2 xorriso debootstrap
     DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes -t sid\
     debuerreotype
-    /vagrant/create-rrzkskclos.sh
+    /vagrant/create-kc-dvd.sh
   SHELL
 end
 
@@ -53,7 +53,7 @@ EOF
 usage ()
 	{
 	echo "Usage:$0 [OPTION]"
-	echo "The RRZKSKCLOS Vagrantfile for vagrant up"
+	echo "The kc-dvd Vagrantfile for vagrant up"
 	echo " -h, --help      Show this message"
 	echo " --force-qemu    Force use QEMU instead of KVM"
 	echo " --force-nfs-tcp Force use TCP instead of UDP for NFSv4"
