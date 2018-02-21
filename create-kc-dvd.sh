@@ -9,7 +9,7 @@ set -u
 
 release=0.1.1 # release number
 DATE=20171210 #`date +%Y%m%d` # Current date or selected date
-SHASUM="879461abf6724a71e837b09307a7adf2c5e5a5f13df2d6e4f47b2a0b84a3b331  -"
+SHASUM="8e3a4282218d1489f813974313d57183f8970781994d08fbc879fd3282e9ff8b  -"
 export SOURCE_DATE_EPOCH="$(date --utc --date="$DATE" +%s)" # defined by reproducible-builds.org.
 
 export WD=/opt/KC-${release}-${DATE}	# Working directory to create the ISO for Reproducible Root Key Signing Key Ceremony Live Operating System
@@ -208,11 +208,11 @@ newhash=$(sha256sum < "${WD}.iso")
   if [ "$newhash" != "$SHASUM" ]
     then
       echo "ERROR: SHA-256 hashes mismatched reproduction failed :("
-      echo "Please send me an email."
+      echo "Please send us an email."
   else
       echo "Congrats for successfully reproducing KC-${release}-${DATE}! ;)"
       echo "You can compute the SHA-256 checksum of the resulting ISO image by yourself."
-      echo "And please send me an email."
+      echo "And please send us an email."
   fi
 
 # END

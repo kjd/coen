@@ -189,7 +189,7 @@ sha256sum KC-0.1.1-20171210.iso
 And compare it with:
 
 ```
-  KC-0.1.1-20171210.iso
+8e3a4282218d1489f813974313d57183f8970781994d08fbc879fd3282e9ff8b  KC-0.1.1-20171210.iso
 ```
 
 Also you can verify the following signed message containing the checksum below:
@@ -201,9 +201,13 @@ Also you can verify the following signed message containing the checksum below:
 -----BEGIN PGP SIGNED MESSAGE-----
 Hash: SHA256
 
-
+8e3a4282218d1489f813974313d57183f8970781994d08fbc879fd3282e9ff8b  KC-0.1.1-20171210.iso
 -----BEGIN PGP SIGNATURE-----
 
+iHUEARYIAB0WIQRlSHxnJVvpY6DVpgWPFn76oiPglQUCWoy/QgAKCRCPFn76oiPg
+lWw7AP9tQi79UJgrQOsKqvXJUVZwWpdIqwgwNm2k9vCvzlsw/wD/bpzTiAQ8GRQh
+r8l0DeuuY/ZRSv7P5/09ws4kvz/XSgE=
+=F/AI
 -----END PGP SIGNATURE-----
 ```
 
