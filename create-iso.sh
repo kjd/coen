@@ -1,4 +1,4 @@
-#!/bin/bash
+coen#!/bin/bash
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
@@ -7,18 +7,18 @@ set -x
 set -e
 set -u
 
-release=0.1.1 # release number
+release=0.1.2 # release number
 DATE=20171210 #`date +%Y%m%d` # Current date or selected date
-SHASUM="8e3a4282218d1489f813974313d57183f8970781994d08fbc879fd3282e9ff8b  -"
-export SOURCE_DATE_EPOCH="$(date --utc --date="$DATE" +%s)" # defined by reproducible-builds.org.
+SHASUM="  -"
+export SOURCE_DATE_EPOCH="$(date --utc --date="$DATE" +%s)" # defined by reproducible-builds.org
 
-export WD=/opt/KC-${release}-${DATE}	# Working directory to create the ISO for Reproducible Root Key Signing Key Ceremony Live Operating System
+export WD=/opt/coen-${release}-${DATE}	# Working directory to create the ISO
 CONF=/vagrant/configs # Configurations Files
 TOOL=/vagrant/tools # Tools
 HOOKS=/vagrant/tools/hooks # Hooks
 arch=amd64 # Target architecture
 dist=stretch # Distribution
-NAME=KC_${release}_${DATE}
+NAME=coen_${release}_${DATE}
 # Creating a working directory
 mkdir -p $WD
 
@@ -48,14 +48,14 @@ do
 done
 
 echo "Setting network"
-echo "KC-${release}-${DATE}" > $WD/chroot/etc/hostname
+echo "coen-${release}-${DATE}" > $WD/chroot/etc/hostname
 
 cat > $WD/chroot/etc/hosts << EOF
-127.0.0.1       localhost KC-${release}-${DATE}
+127.0.0.1       localhost coen-${release}-${DATE}
 192.168.0.2     hsm
 EOF
 
-cat > $WD/chroot/etc/network/interfaces.d/kc-network << EOF
+cat > $WD/chroot/etc/network/interfaces.d/coen-network << EOF
 auto lo
 iface lo inet loopback
 
@@ -164,12 +164,12 @@ cat > $WD/image/isolinux/isolinux.cfg << EOF
 UI menu.c32
 
 prompt 0
-menu title KC-${release}-${DATE}
+menu title coen-${release}-${DATE}
 
 timeout 1
 
-label KC-${release}-${DATE} Live amd64
-menu label ^KC-${release}-${DATE} amd64
+label coen-${release}-${DATE} Live amd64
+menu label ^coen-${release}-${DATE} amd64
 menu default
 kernel /live/vmlinuz
 append initrd=/live/initrd.img boot=live locales=en_US.UTF-8 keymap=us language=us net.ifnames=0 timezone=Etc/UTC live-media=removable nopersistence selinux=0 STATICIP=frommedia modprobe.blacklist=pcspkr,hci_uart,btintel,btqca,btbcm,bluetooth,snd_hda_intel,snd_hda_codec_realtek,snd_soc_skl,snd_soc_skl_ipc,snd_soc_sst_ipc,snd_soc_sst_dsp,snd_hda_ext_core,snd_soc_sst_match,snd_soc_core,snd_compress,snd_hda_core,snd_pcm,snd_timer,snd,soundcore
@@ -210,7 +210,7 @@ newhash=$(sha256sum < "${WD}.iso")
       echo "ERROR: SHA-256 hashes mismatched reproduction failed :("
       echo "Please send us an email."
   else
-      echo "Congrats for successfully reproducing KC-${release}-${DATE}! ;)"
+      echo "Congrats for successfully reproducing coen-${release}-${DATE}! ;)"
       echo "You can compute the SHA-256 checksum of the resulting ISO image by yourself."
       echo "And please send us an email."
   fi
