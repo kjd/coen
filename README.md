@@ -1,15 +1,15 @@
-# Key Ceremony DVD
+# Ceremony Operating ENvironment (COEN)
 
-The Key Ceremony DVD is a Live Operating System consisting of:
+COEN is a live operating system consisting of:
 
 - A custom Debian GNU/Linux Live CD,
 - The Key Management Tools https://github.com/iana-org/dnssec-keytools,
 - The AEP Keyper PKCS#11 provider, and
 - Assorted utilities.
 
-## Reproducible ISO to make The Root Zone Key Signing Key Ceremony System more Trustworthy
+## Reproducible ISO to make The Root Zone DNSSEC Key Signing Key Ceremony System more Trustworthy
 
-This **Reproducible** ISO image provide a verifiable process to obtain the same hash every time at build the ISO to  increase the confidence in the DNSSEC Key Signing Key (KSK) for the Root Zone.
+This **Reproducible** ISO image provide a verifiable process to obtain the same hash every time at build the ISO to increase the confidence in the DNSSEC Key Signing Key (KSK) for the Root Zone.
 
 ### What are reproducible builds?
 
@@ -117,8 +117,8 @@ Skip this section if you intend to build as root.
 Execute the following commands to build the ISO image:
 
 ```
-git clone https://github.com/andrespavez/kc-dvd && \
-cd kc-dvd
+git clone https://github.com/andrespavez/coen && \
+cd coen
 ```
 
 ### Building with KVM
@@ -183,13 +183,13 @@ Congrats for successfully reproducing the ISO!
 You can compute the SHA-256 checksum of the resulting ISO image by yourself:
 
 ```
-sha256sum KC-0.1.1-20171210.iso
+sha256sum coen-0.1.2-20171210.iso
 ```
 
 And compare it with:
 
 ```
-8e3a4282218d1489f813974313d57183f8970781994d08fbc879fd3282e9ff8b  KC-0.1.1-20171210.iso
+e056e4ec8aed6171d150cfb03f64561d82d0ad01727a7e1730c3d48a243f75cc  coen-0.1.2-20171210.iso
 ```
 
 Also you can verify the following signed message containing the checksum below:
@@ -201,13 +201,13 @@ Also you can verify the following signed message containing the checksum below:
 -----BEGIN PGP SIGNED MESSAGE-----
 Hash: SHA256
 
-8e3a4282218d1489f813974313d57183f8970781994d08fbc879fd3282e9ff8b  KC-0.1.1-20171210.iso
+e056e4ec8aed6171d150cfb03f64561d82d0ad01727a7e1730c3d48a243f75cc  coen-0.1.2-20171210.iso
 -----BEGIN PGP SIGNATURE-----
 
-iHUEARYIAB0WIQRlSHxnJVvpY6DVpgWPFn76oiPglQUCWoy/QgAKCRCPFn76oiPg
-lWw7AP9tQi79UJgrQOsKqvXJUVZwWpdIqwgwNm2k9vCvzlsw/wD/bpzTiAQ8GRQh
-r8l0DeuuY/ZRSv7P5/09ws4kvz/XSgE=
-=F/AI
+iHUEARYIAB0WIQRlSHxnJVvpY6DVpgWPFn76oiPglQUCWvTFBQAKCRCPFn76oiPg
+lcVSAQCYX5l63lHa4Y2tumqFG9mHP+vPSCTAuyhZ1pYe52GF+gEA0JB3CWXkYAKI
+ljI4vxDmd/MPITDWh18wO1HNv/ZQcgs=
+=DST6
 -----END PGP SIGNATURE-----
 ```
 
@@ -237,8 +237,8 @@ https://drive.google.com/drive/folders/1YZZ4QVFRa8-V3lW-0s_UHnhhTguM2kH3?usp=sha
 diffoscope \
   --text diffoscope.txt \
   --html diffoscope.html \
-  path/to/public/KC-0.1.1-20171210.iso \
-  path/to/your/KC-0.1.1-20171210.iso && \
+  path/to/public/coen-0.1.2-20171210.iso \
+  path/to/your/coen-0.1.2-20171210.iso && \
 bzip2 diffoscope.*
 ```
 Please send us an email attaching one or both files if there are small or create an issue.
