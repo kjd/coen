@@ -9,7 +9,7 @@ set -u
 
 release=0.1.2 # release number
 DATE=20171210 #`date +%Y%m%d` # Current date or selected date
-SHASUM="  -"
+SHASUM="e056e4ec8aed6171d150cfb03f64561d82d0ad01727a7e1730c3d48a243f75cc  -"
 export SOURCE_DATE_EPOCH="$(date --utc --date="$DATE" +%s)" # defined by reproducible-builds.org
 
 export WD=/opt/coen-${release}-${DATE}	# Working directory to create the ISO
