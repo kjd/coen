@@ -1,24 +1,21 @@
 #!/bin/bash
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-#
+
 set -x
 set -e
 set -u
 
-release=0.1.2 # release number
-DATE=20171210 #`date +%Y%m%d` # Current date or selected date
-SHASUM="e056e4ec8aed6171d150cfb03f64561d82d0ad01727a7e1730c3d48a243f75cc  -"
+release=0.2.0 # release number for coen
+DATE=20180311 #`date +%Y%m%d` # Selected date for version packages
+dist=stretch # Debian Distribution
+arch=amd64 # Target architecture
+SHASUM="88019425466f940e7b677b160b5b937dc2f4afbe0967331a34b761801801e7a5  -"
 export SOURCE_DATE_EPOCH="$(date --utc --date="$DATE" +%s)" # defined by reproducible-builds.org
-
-export WD=/opt/coen-${release}-${DATE}	# Working directory to create the ISO
+export WD=/opt/coen-${release}	# Working directory to create the ISO
+ISONAME=${WD}-${arch}.iso # Final name of the ISO image
 CONF=/vagrant/configs # Configurations Files
 TOOL=/vagrant/tools # Tools
 HOOKS=/vagrant/tools/hooks # Hooks
-arch=amd64 # Target architecture
-dist=stretch # Distribution
-NAME=coen_${release}_${DATE}
+
 # Creating a working directory
 mkdir -p $WD
 
@@ -48,10 +45,10 @@ do
 done
 
 echo "Setting network"
-echo "coen-${release}-${DATE}" > $WD/chroot/etc/hostname
+echo "coen" > $WD/chroot/etc/hostname
 
 cat > $WD/chroot/etc/hosts << EOF
-127.0.0.1       localhost coen-${release}-${DATE}
+127.0.0.1       localhost coen
 192.168.0.2     hsm
 EOF
 
@@ -137,7 +134,7 @@ rm -f $WD/chroot/etc/xdg/autostart/xscreensaver.desktop
 cat > $WD/chroot/etc/udev/rules.d/99-udisks2.rules << EOF
 # UDISKS_FILESYSTEM_SHARED
 # ==1: mount filesystem to a shared directory (/media/VolumeName)
-# ==0: mount filesystem to a private directory (/run/media/$USER/VolumeName)
+# ==0: mount filesystem to a private directory (/run/media/USER/VolumeName)
 # See udisks(8)
 ENV{ID_FS_USAGE}=="filesystem|other|crypto", ENV{UDISKS_FILESYSTEM_SHARED}="1"
 EOF
@@ -164,12 +161,12 @@ cat > $WD/image/isolinux/isolinux.cfg << EOF
 UI menu.c32
 
 prompt 0
-menu title coen-${release}-${DATE}
+menu title coen-${release}
 
 timeout 1
 
-label coen-${release}-${DATE} Live amd64
-menu label ^coen-${release}-${DATE} amd64
+label coen-${release} Live amd64
+menu label ^coen-${release} amd64
 menu default
 kernel /live/vmlinuz
 append initrd=/live/initrd.img boot=live locales=en_US.UTF-8 keymap=us language=us net.ifnames=0 timezone=Etc/UTC live-media=removable nopersistence selinux=0 STATICIP=frommedia modprobe.blacklist=pcspkr,hci_uart,btintel,btqca,btbcm,bluetooth,snd_hda_intel,snd_hda_codec_realtek,snd_soc_skl,snd_soc_skl_ipc,snd_soc_sst_ipc,snd_soc_sst_dsp,snd_hda_ext_core,snd_soc_sst_match,snd_soc_core,snd_compress,snd_hda_core,snd_pcm,snd_timer,snd,soundcore
@@ -195,22 +192,22 @@ find "$WD/image" \
 
 ## Creating the iso
 echo "Creating the iso"
-xorriso -outdev ${WD}.iso -volid $NAME \
+xorriso -outdev $ISONAME -volid COEN \
  -map $WD/image/ / -chmod 0755 / -- -boot_image isolinux dir=/isolinux \
  -boot_image isolinux system_area=$WD/chroot/usr/lib/ISOLINUX/isohdpfx.bin \
  -boot_image isolinux partition_entry=gpt_basdat
 
 ## Coping the iso to the shared folder
-cp ${WD}.iso /vagrant/
+cp $ISONAME /vagrant/
 
-echo "Calculating SHA-256 HASH of the ${WD}.iso"
-newhash=$(sha256sum < "${WD}.iso")
+echo "Calculating SHA-256 HASH of the $ISONAME"
+newhash=$(sha256sum < "${ISONAME}")
   if [ "$newhash" != "$SHASUM" ]
     then
       echo "ERROR: SHA-256 hashes mismatched reproduction failed :("
       echo "Please send us an email."
   else
-      echo "Congrats for successfully reproducing coen-${release}-${DATE}! ;)"
+      echo "Congrats for successfully reproducing coen-${release} ;)"
       echo "You can compute the SHA-256 checksum of the resulting ISO image by yourself."
       echo "And please send us an email."
   fi

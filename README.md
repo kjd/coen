@@ -183,13 +183,13 @@ Congrats for successfully reproducing the ISO!
 You can compute the SHA-256 checksum of the resulting ISO image by yourself:
 
 ```
-sha256sum coen-0.1.2-20171210.iso
+sha256sum coen-0.2.0-amd64.iso
 ```
 
 And compare it with:
 
 ```
-e056e4ec8aed6171d150cfb03f64561d82d0ad01727a7e1730c3d48a243f75cc  coen-0.1.2-20171210.iso
+88019425466f940e7b677b160b5b937dc2f4afbe0967331a34b761801801e7a5  coen-0.2.0-amd64.iso
 ```
 
 Also you can verify the following signed message containing the checksum below:
@@ -201,13 +201,13 @@ Also you can verify the following signed message containing the checksum below:
 -----BEGIN PGP SIGNED MESSAGE-----
 Hash: SHA256
 
-e056e4ec8aed6171d150cfb03f64561d82d0ad01727a7e1730c3d48a243f75cc  coen-0.1.2-20171210.iso
+88019425466f940e7b677b160b5b937dc2f4afbe0967331a34b761801801e7a5  coen-0.2.0-amd64.iso
 -----BEGIN PGP SIGNATURE-----
 
-iHUEARYIAB0WIQRlSHxnJVvpY6DVpgWPFn76oiPglQUCWvTFBQAKCRCPFn76oiPg
-lcVSAQCYX5l63lHa4Y2tumqFG9mHP+vPSCTAuyhZ1pYe52GF+gEA0JB3CWXkYAKI
-ljI4vxDmd/MPITDWh18wO1HNv/ZQcgs=
-=DST6
+iHUEARYIAB0WIQRlSHxnJVvpY6DVpgWPFn76oiPglQUCWv4c6AAKCRCPFn76oiPg
+ldJgAQDPMyjQRvH4fN2jbyj/hfOO18IB+SCbLopEGvbUPw/mzwEAgBxWtjeSDxtG
+HrJb7jEMTDp85LN1ACjamQbqXEAT+wI=
+=Rxx8
 -----END PGP SIGNATURE-----
 ```
 
@@ -237,8 +237,8 @@ https://drive.google.com/drive/folders/1YZZ4QVFRa8-V3lW-0s_UHnhhTguM2kH3?usp=sha
 diffoscope \
   --text diffoscope.txt \
   --html diffoscope.html \
-  path/to/public/coen-0.1.2-20171210.iso \
-  path/to/your/coen-0.1.2-20171210.iso && \
+  path/to/public/coen-0.2.0-amd64.iso \
+  path/to/your/coen-0.2.0-amd64.iso && \
 bzip2 diffoscope.*
 ```
 Please send us an email attaching one or both files if there are small or create an issue.
