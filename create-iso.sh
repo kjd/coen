@@ -8,7 +8,7 @@ release=0.2.0 # release number for coen
 DATE=20180311 #`date +%Y%m%d` # Selected date for version packages
 dist=stretch # Debian Distribution
 arch=amd64 # Target architecture
-SHASUM="88019425466f940e7b677b160b5b937dc2f4afbe0967331a34b761801801e7a5  -"
+SHASUM="d5964222d18e651447e1595a541506f39dccedd27e1d379998de0efec5ee027a  -"
 export SOURCE_DATE_EPOCH="$(date --utc --date="$DATE" +%s)" # defined by reproducible-builds.org
 export WD=/opt/coen-${release}	# Working directory to create the ISO
 ISONAME=${WD}-${arch}.iso # Final name of the ISO image

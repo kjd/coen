@@ -189,7 +189,7 @@ sha256sum coen-0.2.0-amd64.iso
 And compare it with:
 
 ```
-88019425466f940e7b677b160b5b937dc2f4afbe0967331a34b761801801e7a5  coen-0.2.0-amd64.iso
+d5964222d18e651447e1595a541506f39dccedd27e1d379998de0efec5ee027a  coen-0.2.0-amd64.iso
 ```
 
 Also you can verify the following signed message containing the checksum below:
@@ -201,13 +201,13 @@ Also you can verify the following signed message containing the checksum below:
 -----BEGIN PGP SIGNED MESSAGE-----
 Hash: SHA256
 
-88019425466f940e7b677b160b5b937dc2f4afbe0967331a34b761801801e7a5  coen-0.2.0-amd64.iso
+d5964222d18e651447e1595a541506f39dccedd27e1d379998de0efec5ee027a  coen-0.2.0-amd64.iso
 -----BEGIN PGP SIGNATURE-----
 
-iHUEARYIAB0WIQRlSHxnJVvpY6DVpgWPFn76oiPglQUCWv4c6AAKCRCPFn76oiPg
-ldJgAQDPMyjQRvH4fN2jbyj/hfOO18IB+SCbLopEGvbUPw/mzwEAgBxWtjeSDxtG
-HrJb7jEMTDp85LN1ACjamQbqXEAT+wI=
-=Rxx8
+iHUEARYIAB0WIQRlSHxnJVvpY6DVpgWPFn76oiPglQUCWwMv0wAKCRCPFn76oiPg
+lWAaAP9OIwNRiObIh05hSvWwdoEKK+zcXAPiLTIZFNmd5DDB6wD+Or1qgJWgL17+
+IAeCHm4yl280x/RYJ5T4f1SXT2n4yAQ=
+=JDXa
 -----END PGP SIGNATURE-----
 ```
 
