@@ -1,8 +1,6 @@
 #!/bin/bash
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 #
+
 set -x
 set -e
 set -u
@@ -27,7 +25,7 @@ cat > Vagrantfile << EOF
 
 Vagrant.configure("2") do |config|
   config.vm.box = "debian/stretch64"
-  config.vm.box_version = "9.1.0"
+  config.vm.box_version = "9.4.0"
   config.vm.provider "libvirt"
 
 #  config.vm.synced_folder ".", "/vagrant", nfs: true, nfs_version: 4, nfs_udp: false
