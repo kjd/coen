@@ -140,7 +140,7 @@ qOpJ8WEcVitR1hj/xHzwg/MZJ+NkLAc=
 Please help us to improve it. Install `diffoscope` https://diffoscope.org/
 
 Then, download the image from
-https://drive.google.com/open?id=1h5GecpixjUyH_gLQBkB3Ja-VAxFyQ60w
+https://github.com/andrespavez/coen/releases/tag/v0.3.0-20180311
 and compare it with your image executing the following command:
 
 ```
