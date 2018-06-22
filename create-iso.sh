@@ -1,20 +1,9 @@
 #!/bin/bash
-
 set -x
 set -e
 set -u
 
-release=0.2.0 # release number for coen
-DATE=20180311 #`date +%Y%m%d` # Selected date for version packages
-dist=stretch # Debian Distribution
-arch=amd64 # Target architecture
-SHASUM="d5964222d18e651447e1595a541506f39dccedd27e1d379998de0efec5ee027a  -"
-export SOURCE_DATE_EPOCH="$(date --utc --date="$DATE" +%s)" # defined by reproducible-builds.org
-export WD=/opt/coen-${release}	# Working directory to create the ISO
-ISONAME=${WD}-${arch}.iso # Final name of the ISO image
-CONF=/vagrant/configs # Configurations Files
-TOOL=/vagrant/tools # Tools
-HOOKS=/vagrant/tools/hooks # Hooks
+source ./variables.sh
 
 # Creating a working directory
 mkdir -p $WD
@@ -62,30 +51,6 @@ iface eth0 inet static
   netmask 255.255.255.0
 EOF
 
-# AEP Software
-# Check install -p, --preserve-timestamps
-echo "Instaling AEP Software"
-install -m 755 -d $WD/chroot/opt/Keyper
-install -m 755 -d $WD/chroot/opt/Keyper/bin
-install -m 755 -d $WD/chroot/opt/Keyper/PKCS11Provider
-install -m 755 -d $WD/chroot/opt/Keyper/docs
-install -p -m 555 $CONF/Keyper/bin/*              $WD/chroot/opt/Keyper/bin
-install -p -m 444 $CONF/Keyper/PKCS11Provider/*   $WD/chroot/opt/Keyper/PKCS11Provider
-install -p -m 444 $CONF/Keyper/docs/*             $WD/chroot/opt/Keyper/docs
-
-# ICANN Software & Scripts
-echo "Instaling ICANN Software and Scripts"
-install -m 755 -d $WD/chroot/opt/icann
-install -m 755 -d $WD/chroot/opt/icann/bin
-install -m 755 -d $WD/chroot/opt/icann/dist
-install -p -m 555 $CONF/icann/bin/*   $WD/chroot/opt/icann/bin
-install -p -m 555 $CONF/icann/dist/*  $WD/chroot/opt/icann/dist
-
-# DNSSEC Configurations Files
-echo "Instaling DNSSEC Configurations Files"
-install -m 755 -d $WD/chroot/opt/dnssec
-install -p -m 444 $CONF/dnssec/*    $WD/chroot/opt/dnssec
-
 # Profile in .bashrc to work with xfce terminal
 echo "export PATH=:/opt/icann/bin:/opt/Keyper/bin:\$PATH" >> $WD/chroot/root/.bashrc
 # ls with color
@@ -121,12 +86,6 @@ sed -i --regexp-extended \
 # lastlog with autologin doesn't make sense
 sed -i '/^[^#].*pam_lastlog\.so/s/^/# /' $WD/chroot/etc/pam.d/login
 
-echo "Custom XFCE"
-# xfce panel, unlock, power off, desktop configuration
-mkdir -p $WD/chroot/root/.config/xfce4/xfconf/xfce-perchannel-xml
-install -p -m 644 $CONF/xfce-perchannel-xml/*  $WD/chroot/root/.config/xfce4/xfconf/xfce-perchannel-xml
-# Terminal with 2 tabs
-install -p -m 644 $CONF/xfce4-terminal.desktop $WD/chroot/etc/xdg/autostart/
 # just in case, anyway it is not installed
 rm -f $WD/chroot/etc/xdg/autostart/xscreensaver.desktop
 
@@ -142,15 +101,6 @@ EOF
 # Creating boot directories
 mkdir -p $WD/image/live
 mkdir -p $WD/image/isolinux
-
-# Fixing dates to SOURCE_DATE_EPOCH
-debuerreotype-fixup $WD/chroot
-
-# Compressing the chroot environment into a squashfs
-$TOOL/mksquashfs $WD/chroot/ $WD/image/live/filesystem.squashfs -ef $TOOL/mksquashfs-excludes -noappend -comp xz
-
-# Setting permissions for squashfs.img
-chmod 644 $WD/image/live/filesystem.squashfs
 
 # Coping bootloader
 cp -p $WD/chroot/boot/vmlinuz-* $WD/image/live/vmlinuz
@@ -185,10 +135,20 @@ cp -p $WD/chroot/usr/lib/syslinux/modules/bios/libcom32.c32 $WD/image/isolinux/
 cp -p $WD/chroot/usr/lib/syslinux/modules/bios/libgpl.c32 $WD/image/isolinux/
 cp -p $WD/chroot/usr/share/misc/pci.ids $WD/image/isolinux/
 
+# Fixing dates to SOURCE_DATE_EPOCH
+debuerreotype-fixup $WD/chroot
+
 # Fixing main folder timestamps
-find "$WD/image" \
-	-newermt "@$SOURCE_DATE_EPOCH" \
-	-exec touch --no-dereference --date="@$SOURCE_DATE_EPOCH" '{}' +
+find "$WD/" -exec touch --no-dereference --date="@$SOURCE_DATE_EPOCH" '{}' +
+
+# Compressing the chroot environment into a squashfs
+mksquashfs $WD/chroot/ $WD/image/live/filesystem.squashfs -comp xz -Xbcj x86 -b 1024K -Xdict-size 1024K -no-exports -processors 1 -no-fragments -wildcards -ef $TOOL/mksquashfs-excludes 
+
+# Setting permissions for squashfs.img
+chmod 644 $WD/image/live/filesystem.squashfs
+
+# Fixing squashfs folder timestamps
+find "$WD/image/" -exec touch --no-dereference --date="@$SOURCE_DATE_EPOCH" '{}' +
 
 ## Creating the iso
 echo "Creating the iso"
@@ -196,9 +156,6 @@ xorriso -outdev $ISONAME -volid COEN \
  -map $WD/image/ / -chmod 0755 / -- -boot_image isolinux dir=/isolinux \
  -boot_image isolinux system_area=$WD/chroot/usr/lib/ISOLINUX/isohdpfx.bin \
  -boot_image isolinux partition_entry=gpt_basdat
-
-## Coping the iso to the shared folder
-cp $ISONAME /vagrant/
 
 echo "Calculating SHA-256 HASH of the $ISONAME"
 newhash=$(sha256sum < "${ISONAME}")

@@ -1,3 +1,6 @@
 boot/*
 tmp/*
 var/lib/apt/lists/*
+usr/share/icons/*/.icon-theme.cache
+usr/share/icons/*/icon-theme.cache
+var/cache/debconf/*

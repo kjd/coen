@@ -2,115 +2,73 @@
 
 COEN is a live operating system consisting of:
 
-- A custom Debian GNU/Linux Live CD,
-- The Key Management Tools https://github.com/iana-org/dnssec-keytools,
-- The AEP Keyper PKCS#11 provider, and
+- A custom Debian GNU/Linux Live CD
+- The Key Management Tools https://github.com/iana-org/dnssec-keytools
+- The AEP Keyper PKCS#11 provider
 - Assorted utilities.
 
-## Reproducible ISO to make The Root Zone DNSSEC Key Signing Key Ceremony System more Trustworthy
+## Reproducible ISO image to make The Root Zone DNSSEC Key Signing Key Ceremony System more Trustworthy
 
-This **Reproducible** ISO image provide a verifiable process to obtain the same hash every time at build the ISO to increase the confidence in the DNSSEC Key Signing Key (KSK) for the Root Zone.
+This **Reproducible** ISO image provide a verifiable process to obtain the same
+hash every time at build the ISO image to increase the confidence in the DNSSEC Key
+Signing Key (KSK) for the Root Zone.
 
 ### What are reproducible builds?
 
 Quoted from https://reproducible-builds.org
 
-> Reproducible builds are a set of software development practices that create a verifiable path from human readable source code to the binary code used by computers.
-
-> Most aspects of software verification are done on source code, as that is what humans can reasonably understand. But most of the time, computers require software to be first built into a long string of numbers to be used. With reproducible builds, multiple parties can redo this process independently and ensure they all get exactly the same result. We can thus gain confidence that a distributed binary code is indeed coming from a given source code.
+> Reproducible builds are a set of software development practices that create a
+verifiable path from human readable source code to the binary code used by
+computers.
+>
+> Most aspects of software verification are done on source code, as that is what
+humans can reasonably understand. But most of the time, computers require
+software to be first built into a long string of numbers to be used. With
+reproducible builds, multiple parties can redo this process independently and
+ensure they all get exactly the same result. We can thus gain confidence that a
+distributed binary code is indeed coming from a given source code.
 
 ## Acknowledgments
 
 This project cannot be possible without:
-- The Reproducible Builds project: https://reproducible-builds.org/,
-- Debian as trust anchor:  https://wiki.debian.org/ReproducibleBuilds,
-- Debuerreotype a reproducible, snapshot-based Debian rootfs builder:  https://github.com/debuerreotype/debuerreotype, and
-- Tails or The Amnesic Incognito Live System: https://tails.boum.org/index.en.html
+- The Reproducible Builds project: https://reproducible-builds.org/
+- Debian as trust anchor:  https://wiki.debian.org/ReproducibleBuilds
+- Debuerreotype a reproducible, snapshot-based Debian rootfs builder:  
+https://github.com/debuerreotype/debuerreotype
+- Tails or The Amnesic Incognito Live System:
+https://tails.boum.org/index.en.html
 
-## Requirements for Build the ISO Image
+## Requirements for build the ISO image
 
-Building the ISO image requires:
+Build the ISO image requires:
 
-- The KVM virtual machine hypervisor. If is not available the build process will be slower.
+- Docker https://www.docker.com/
+> The recommended Docker version is 18.03.
 
-- A minimum of 1 GB of free RAM,
+- Disable SELinux
+> SELinux must be completely disabled rather than with **permissive mode** since
+the behave is differently.
 
-- At least 5 GB of free storage,
+### Disable SELinux
 
-## Setup the build environment
+If you are running a Red Hat based distribution, including RHEL, CentOS and
+Fedora, you will probably have the SELinux security module installed.
 
-The build environment requires `qemu`,  `libvirt`,  `vagrant` and `vagrant-libvirt`. You need to make sure your have all the build dependencies installed and it will depends or your GNU/Linux distro. Below and overview based on Debian and Fedora distros.
+To check your SELinux mode, run `sestatus` and check the output.
 
-###  Debian Stretch and Buster/Sid
+If you see **enforcing** or **permissive** on *"Current mode"*, SELinux is
+enabled and enforcing rules or is enable and log rather than enforce errors.
 
-Install the following dependencies:
+> **Warning** before to proceed with this. Disabling SELinux also disables the
+generation of file contexts so an entire system relabeling is needed afterwards.
 
-```
-sudo apt-get update && \
-sudo apt-get install \
-    git \
-    libvirt-daemon-system \
-    dnsmasq-base \
-    ebtables \
-    qemu-system-x86 \
-    qemu-utils \
-    nfs-kernel-server \
-    vagrant \
-    vagrant-libvirt && \
-sudo systemctl restart libvirtd
-```
+To disable SELinux:
 
-#### Building as a non-root user
-
-Skip this section if you intend to build as root.
-
-- Make sure that the user can run command as root with sudo.
-
-- Add the user to the relevant groups:
-
-  ```
-  for group in kvm libvirt libvirt-qemu; \
-  do sudo adduser "$(whoami)" "$group"; \
-  done && \
-  newgrp
-  ```
-
-### Fedora 25 and Up
-
-Install the following dependencies:
-
-```
-sudo dnf install \
-    git \
-    vagrant-libvirt \
-    nfs-utils \
-    qemu-system-x86 \
-    libvirt-client && \
-sudo systemctl enable libvirtd && \
-sudo systemctl enable nfs-server && \
-sudo firewall-cmd --permanent --add-service=nfs && \
-sudo firewall-cmd --permanent --add-service=rpc-bind && \
-sudo firewall-cmd --permanent --add-service=mountd && \
-sudo firewall-cmd --reload && \
-sudo systemctl start libvirtd  && \
-sudo systemctl start nfs-server
-```
-
-#### Building as a non-root user
-
-Skip this section if you intend to build as root.
-
-- Make sure that the user can run command as root with sudo.
-
-- Add the user to the relevant groups:
-
-  ```
-   sudo gpasswd -a ${USER} libvirt && \
-   newgrp libvirt && \
-   sudo getent group vagrant >/dev/null || sudo groupadd -r vagrant && \
-   sudo gpasswd -a ${USER} vagrant && \
-   newgrp vagrant
-   ```
+- Edit `/etc/sysconfig/selinux` or `/etc/selinux/config` depending of your distro
+- Set the `SELINUX` parameter to `disabled`
+- For the changes to take effect, you need to **reboot** the machine, since
+SELinux is running within the kernel
+- Check the status of SELinux using `sestatus` command
 
 ## Build the ISO image
 
@@ -118,78 +76,42 @@ Execute the following commands to build the ISO image:
 
 ```
 git clone https://github.com/andrespavez/coen && \
-cd coen
+cd coen && \
+make all
 ```
+* If you have a error executing `make all` as a non-root user, try to
+execute `sudo make all`.
 
-### Building with KVM
+> This will build a docker image with the proper environment to build the
+ISO. Then will run a container executing a bash script to build the ISO and
+if the build succeeded it will copy the resulting ISO into the host directory.
+>
+> Please, noted that executing `make` you will see more options.
 
-Skip this section if you intend to build without KVM.
-
-Execute the following commands:
-
-```
-./init-vagrant.sh
-```
-> Read the warning message and type **Y** if you want to continue with the build process.
-
-### Building without KVM
-
-Execute the following command:
-
-```
-./init-vagrant.sh --force-qemu
-```
-> Read the warning message and type **Y** if you want to continue with the build process.
-
-## Troubleshooting
-
-### Fails on "Waiting for domain to get an IP address..."
-
-There is a trick using `qemu` instead of `kvm` to avoid this error. Execute the following command:
-
-```
-vagrant destroy && \
-./init-vagrant.sh --force-qemu
-```
-
-### Fails on "mount.nfs: requested NFS version or transport protocol is not supported..." or "mount.nfs: an incorrect mount option was specified..."
-
-Using TCP instead of UDP for NFSv4 can avoid this error. Execute the following command:
-
-```
-vagrant destroy && \
-./init-vagrant.sh --force-nfs-tcp
-```
-
-### Fails on "mesg: ttyname failed: Inappropriate ioctl for device..."
-
-Probably you are using an old `vagrant` version. Try to execute the commands with `sudo` even with the root user.
-
-### Had an Error and Wants to Try Again...
-
-If you have an unexpected error and you want to try again:
-Execute first `vagrant destroy` then `./init-vagrant.sh`
-
-## Send us feedback!
+## Send to us feedback
 
 ### If the build failed
 
-Please send us the error that show in your terminal session or create an issue.
+Please, send to us the error that show in your terminal session.
 
 ### If the build succeeded and the checksums match (i.e. reproduction succeeded).
 
-Congrats for successfully reproducing the ISO!
+Congrats for successfully reproducing the ISO image!
 
 You can compute the SHA-256 checksum of the resulting ISO image by yourself:
 
 ```
-sha256sum coen-0.2.0-amd64.iso
+sha256sum coen-0.3.0-amd64.iso
+```
+or
+```
+shasum -a 256 coen-0.3.0-amd64.iso
 ```
 
 And compare it with:
 
 ```
-d5964222d18e651447e1595a541506f39dccedd27e1d379998de0efec5ee027a  coen-0.2.0-amd64.iso
+52ab766f63016081057cd2c856f724f77d71f9e424193fe56e6a52fcb4271a9e  coen-0.3.0-amd64.iso
 ```
 
 Also you can verify the following signed message containing the checksum below:
@@ -201,44 +123,32 @@ Also you can verify the following signed message containing the checksum below:
 -----BEGIN PGP SIGNED MESSAGE-----
 Hash: SHA256
 
-d5964222d18e651447e1595a541506f39dccedd27e1d379998de0efec5ee027a  coen-0.2.0-amd64.iso
+52ab766f63016081057cd2c856f724f77d71f9e424193fe56e6a52fcb4271a9e  coen-0.3.0-amd64.iso
 -----BEGIN PGP SIGNATURE-----
 
-iHUEARYIAB0WIQRlSHxnJVvpY6DVpgWPFn76oiPglQUCWwMv0wAKCRCPFn76oiPg
-lWAaAP9OIwNRiObIh05hSvWwdoEKK+zcXAPiLTIZFNmd5DDB6wD+Or1qgJWgL17+
-IAeCHm4yl280x/RYJ5T4f1SXT2n4yAQ=
-=JDXa
+iHUEARYIAB0WIQRlSHxnJVvpY6DVpgWPFn76oiPglQUCWyrCMgAKCRCPFn76oiPg
+lUYMAP4t8rMaZRRj0FcWjsfNUM+AXS7whkSnafNmHdGyAcl/EAD/QGq+8O66bXxt
+qOpJ8WEcVitR1hj/xHzwg/MZJ+NkLAc=
+=z4iK
 -----END PGP SIGNATURE-----
 ```
 
-- And please send us an email.
+- And please, send to us an email.
 
 ### If the build succeeded and the checksums differ (i.e. reproduction failed).
 
 Please help us to improve it. Install `diffoscope` https://diffoscope.org/
 
-#### Debian
-
-```
-sudo apt-get install diffoscope
-```
-
-#### Fedora
-
-```
-sudo dnf install diffoscope
-```
-
 And then download the image from
-https://drive.google.com/drive/folders/1YZZ4QVFRa8-V3lW-0s_UHnhhTguM2kH3?usp=sharing
- and compare it with yours image:
+https://drive.google.com/open?id=1h5GecpixjUyH_gLQBkB3Ja-VAxFyQ60w
+and compare it with your image:
 
 ```
 diffoscope \
   --text diffoscope.txt \
   --html diffoscope.html \
-  path/to/public/coen-0.2.0-amd64.iso \
-  path/to/your/coen-0.2.0-amd64.iso && \
+  path/to/public/coen-0.3.0-amd64.iso \
+  path/to/your/coen-0.3.0-amd64.iso && \
 bzip2 diffoscope.*
 ```
-Please send us an email attaching one or both files if there are small or create an issue.
+Please, send to us an email attaching one or both files.

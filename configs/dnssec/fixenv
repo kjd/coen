@@ -1,9 +1,0 @@
-# $Id: fixenv 600 2011-09-21 18:50:21Z dknight $
-# 20170919 updated PKCS11 version apavez
-#
-# This scripts configures a basic environment for operating the
-# AEP Keyper HSM for the ICANN Key Ceremony.
-
-export KEYPER_LIBRARY_PATH=/opt/dnssec
-export PKCS11_LIBRARY_PATH=/opt/Keyper/PKCS11Provider/pkcs11.linux_gcc_4_1_2_glibc_2_5_x86_64.so.5.02
-export LD_LIBRARY_PATH=/opt/Keyper/PKCS11Provider
