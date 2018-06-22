@@ -86,13 +86,13 @@ execute `sudo make all`.
 ISO. Then will run a container executing a bash script to build the ISO and
 if the build succeeded it will copy the resulting ISO into the host directory.
 >
-> Please, noted that executing `make` you will see more options.
+> You can execute `make` command to see more options.
 
-## Send to us feedback
+## Send to us some feedback
 
 ### If the build failed
 
-Please, send to us the error that show in your terminal session.
+Please, send to us the error displayed in your terminal window.
 
 ### If the build succeeded and the checksums match (i.e. reproduction succeeded).
 
@@ -108,13 +108,13 @@ or
 shasum -a 256 coen-0.3.0-amd64.iso
 ```
 
-And compare it with:
+Then, comparing it with the following checksum:
 
 ```
 52ab766f63016081057cd2c856f724f77d71f9e424193fe56e6a52fcb4271a9e  coen-0.3.0-amd64.iso
 ```
 
-Also you can verify the following signed message containing the checksum below:
+Also, you can verify the following signed message containing the checksum below:
 
 - keyID = C7D68CF8
 - Fingerprint = EC21 1197 7A47 2E31 9B29  2316 755A 6C09 C7D6 8CF8
@@ -139,9 +139,9 @@ qOpJ8WEcVitR1hj/xHzwg/MZJ+NkLAc=
 
 Please help us to improve it. Install `diffoscope` https://diffoscope.org/
 
-And then download the image from
+Then, download the image from
 https://drive.google.com/open?id=1h5GecpixjUyH_gLQBkB3Ja-VAxFyQ60w
-and compare it with your image:
+and compare it with your image executing the following command:
 
 ```
 diffoscope \
