@@ -1,4 +1,4 @@
-28281a603abd5c17bd75bd11e26bccee3e93ac7d7a3559d3162105ec7b81a9c9  ./create-iso.sh
+52dc15c0bb9de6c0fb40413e50f166ca10bb1a7f57cf630d1f6c3c723238e486  ./create-iso.sh
 30633e359d943b5f61003ceb83da61c72c2faaf18a8ba0ddae4e2384452ba504  ./variables.sh
 c93b498e8599dd2368ae92622aee2342a312f84ae216eb2ece659fa9e4864ca3  ./tools/debuerreotype_0.7-1_all.deb
 7d135a3e426946a665bdcbf0a62c858fc123d1228f38dc96d83fa8ef22cfcd89  ./tools/hooks/00-install-ksk-packages.sh
@@ -6,7 +6,7 @@ d5b7642d36fde8ac0852a368213c039eeab5a983595ff86f8578a7158635ec0a  ./tools/hooks/
 dfa1ef0306664251b9c2c9319015d0bcde66f2652591ad4e0452a1bdd7daf02f  ./tools/hooks/02-initramfs-tools.sh
 5e4d3bef8ca62175278081eda9fb62a82e5a157ad2ee6a1bb7ab3fa41559a819  ./tools/hooks/03-fix-gdk-pixbuf-loaders-cache.sh
 95c715c03d141c913f837e98de918826722c90014ddfee0cbdaed80223e2e8a9  ./tools/hooks/04-fix-glib2.0-giomodule-cache.sh
-97d69b0a10d957ed5bd149026b80655381ed497cddfd7ef723c02a7d22a5d194  ./tools/hooks/05-fix-gtk-immodules-cache.sh
+0f1f9b178e183e1c8d58ce4e1573c96bc884df7fae5bf1f72c43923a1975a719  ./tools/hooks/05-fix-gtk-immodules-cache.sh
 fb5194233e7724798031ce89495c26b50e3c2089c24328b66a7ef26716e31acc  ./tools/hooks/11-remove_unwanted_files.sh
 e627a15a8c01d79c620ff3ffa2d9ba201e80c80505b1552eebc8ae59617b21e6  ./tools/hooks/12-truncate_logs.sh
 23b66f586acecc18e9701b6ab99915cd9b0de901f3326c9e2f6324e2694945c9  ./tools/hooks/13-remove_pyc.sh

@@ -104,7 +104,7 @@ EOF
 mkdir -p $WD/image/live
 mkdir -p $WD/image/isolinux
 
-# Coping bootloader
+# Copying bootloader
 cp -p $WD/chroot/boot/vmlinuz-* $WD/image/live/vmlinuz
 cp -p $WD/chroot/boot/initrd.img-* $WD/image/live/initrd.img
 

@@ -1,7 +1,7 @@
 #!/bin/sh
 # GTK immodules.cache not reproducible
 # Reference https://labs.riseup.net/code/issues/13440
-# Usign dpkg from tails
+# Using gtk packages from tails that fixed this
 
 set -x # This option causes a bash script to print each command before executing it.
 set -e # This option cause a bash script to exit immediately when a command fails.
