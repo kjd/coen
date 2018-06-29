@@ -1,7 +1,10 @@
 #!/bin/bash
-set -x
-set -e
-set -u
+# Data assignment to variables using in the creation of the ISO image. This script is execute by
+# create-iso.sh
+
+set -x # This option causes a bash script to print each command before executing it
+set -e # This option cause a bash script to exit immediately when a command fails
+set -u # This option causes a bash script to treat unset variables as an error and exit immediately
 
 export release=0.3.0 # release number for coen
 export DATE=20180311 #`date +%Y%m%d` # Selected date for version packages

@@ -1,13 +1,11 @@
 #!/bin/sh
-
-set -x
-set -e
-set -u
-
 # Reference https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=845034
 # mkinitramfs generates non-reproducible ramdisk images
+# Using initramfs-tools packages from tails that fixed this
 
-# Usign initramfs-tools from tails
+set -x # This option causes a bash script to print each command before executing it
+set -e # This option cause a bash script to exit immediately when a command fails
+set -u # This option causes a bash script to treat unset variables as an error and exit immediately
 
 initcore="initramfs-tools-core_0.130.0tails1_all.deb"
 INITTOOLCORESHA256="db1d9dcd6d0c9587136c5a65419ee9eaa7a8a20c163dd2718cd826056a893819  -"

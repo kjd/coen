@@ -1,14 +1,12 @@
 #!/bin/sh
-
-set -x
-set -e
-set -u
-
 # Reference https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=864082
 # fontconfig generates non-reproducible cache files under
-# /var/cache/fontconfig.
+# /var/cache/fontconfig
+# Using fontconfig packages from tails that fixed this
 
-# Usign fontconfig from tails
+set -x # This option causes a bash script to print each command before executing it
+set -e # This option cause a bash script to exit immediately when a command fails
+set -u # This option causes a bash script to treat unset variables as an error and exit immediately
 
 fontconf="fontconfig-config_2.11.0-6.7.0tails4_all.deb"
 FONTCONFSHA256="390fdc4c915aeed379196335e672d6a9af6677e6d675093f8855c85953aae246  -"

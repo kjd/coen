@@ -38,18 +38,18 @@ https://github.com/debuerreotype/debuerreotype
 - Tails or The Amnesic Incognito Live System:
 https://tails.boum.org/index.en.html
 
-## Requirements for build the ISO image
+## Requirements for building the ISO image
 
-Build the ISO image requires:
+Building the ISO image requires:
 
 - Docker https://www.docker.com/
 > The recommended Docker version is 18.03.
 
-- Disable SELinux
+- Disabling SELinux
 > SELinux must be completely disabled rather than with **permissive mode** since
 the behave is differently.
 
-### Disable SELinux
+### Disabling SELinux
 
 If you are running a Red Hat based distribution, including RHEL, CentOS and
 Fedora, you will probably have the SELinux security module installed.
@@ -59,7 +59,7 @@ To check your SELinux mode, run `sestatus` and check the output.
 If you see **enforcing** or **permissive** on *"Current mode"*, SELinux is
 enabled and enforcing rules or is enable and log rather than enforce errors.
 
-> **Warning** before to proceed with this. Disabling SELinux also disables the
+> **Warning** before proceeding with this. Disabling SELinux also disables the
 generation of file contexts so an entire system relabeling is needed afterwards.
 
 To disable SELinux:
@@ -70,7 +70,7 @@ To disable SELinux:
 SELinux is running within the kernel
 - Check the status of SELinux using `sestatus` command
 
-## Build the ISO image
+## Building the ISO image
 
 Execute the following commands to build the ISO image:
 
@@ -88,11 +88,11 @@ if the build succeeded it will copy the resulting ISO into the host directory.
 >
 > You can execute `make` command to see more options.
 
-## Send to us some feedback
+## Send us some feedback
 
 ### If the build failed
 
-Please, send to us the error displayed in your terminal window.
+Please send us the error that is displayed in your terminal window.
 
 ### If the build succeeded and the checksums match (i.e. reproduction succeeded).
 
@@ -133,7 +133,7 @@ qOpJ8WEcVitR1hj/xHzwg/MZJ+NkLAc=
 -----END PGP SIGNATURE-----
 ```
 
-- And please, send to us an email.
+- And please send us an email.
 
 ### If the build succeeded and the checksums differ (i.e. reproduction failed).
 
@@ -151,4 +151,4 @@ diffoscope \
   path/to/your/coen-0.3.0-amd64.iso && \
 bzip2 diffoscope.*
 ```
-Please, send to us an email attaching one or both files.
+Please send us an email attaching one or both files.

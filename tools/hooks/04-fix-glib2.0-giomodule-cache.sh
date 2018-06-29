@@ -1,12 +1,11 @@
 #!/bin/sh
-
-set -x
-set -e
-set -u
-
-# giomodule.cache not reproducible
 # Reference https://labs.riseup.net/code/issues/13441
-# Usign dpkg from tails
+# giomodule.cache is not reproducible
+# Using libglib2 packages from tails that fixed this
+
+set -x # This option causes a bash script to print each command before executing it
+set -e # This option cause a bash script to exit immediately when a command fails
+set -u # This option causes a bash script to treat unset variables as an error and exit immediately
 
 pkg1="libglib2.0-0_2.50.3-2.0tails1_amd64.deb"
 shapkg1="c667290a6de8171a4fbe7660d92923bce06d73aac099aa9b28ccb9618862f891  -"

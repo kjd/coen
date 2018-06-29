@@ -1,12 +1,11 @@
 #!/bin/sh
-
-set -x
-set -e
-set -u
-
-# gdk-pixbuf's loaders.cache not reproducible
 # Reference https://labs.riseup.net/code/issues/13442
-# Usign dpkg from tails
+# gdk-pixbuf's loaders.cache is not reproducible
+# Using gdk-pixbuf packages from tails that fixed this
+
+set -x # This option causes a bash script to print each command before executing it
+set -e # This option cause a bash script to exit immediately when a command fails
+set -u # This option causes a bash script to treat unset variables as an error and exit immediately
 
 pkg1="gir1.2-gdkpixbuf-2.0_2.36.5-2.0tails2_amd64.deb"
 shapkg1="b80b447e68ccd4e3ad1ef164e3c0fe4176e434a1e909e92733fba3cc81b644b1  -"
