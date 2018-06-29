@@ -1,8 +1,9 @@
 #!/bin/sh
+# Installs KSK software and XFCE customisation from Debian packages
 
-set -x
-set -e
-set -u
+set -x # This option causes a bash script to print each command before executing it
+set -e # This option cause a bash script to exit immediately when a command fails
+set -u # This option causes a bash script to treat unset variables as an error and exit immediately
 
 pkg1="ksk-tools-0.1.0coen_amd64.deb"
 shapkg1="93e954744ec11e1d6837a792e26cc93b88f0735f7184337c4e65babca65503ab  -"
@@ -10,7 +11,7 @@ shapkg1="93e954744ec11e1d6837a792e26cc93b88f0735f7184337c4e65babca65503ab  -"
 pkg2="ksk-xfce-custom-0.1.0coen_amd64.deb"
 shapkg2="2080347093bc714b92d2f02e9c19e51ca23804776c2b52958c25630330b25f1d  -"
 
-for pkg in "${pkg1} ${shapkg1}" "${pkg2} ${shapkg2}" 
+for pkg in "${pkg1} ${shapkg1}" "${pkg2} ${shapkg2}"
 do
 	set -- $pkg # parses variable "pkg" $1 name and $2 hash and $3 "-"
 	cp $PACKAGE/$1 $WD/chroot/tmp

@@ -1,9 +1,10 @@
 #!/bin/sh
+# Remove unwanted files
 # Thanks to https://git-tails.immerda.ch/tails/tree/config/chroot_local-hooks
 
-set -x
-set -e
-set -u
+set -x # This option causes a bash script to print each command before executing it
+set -e # This option cause a bash script to exit immediately when a command fails
+set -u # This option causes a bash script to treat unset variables as an error and exit immediately
 
 echo "Removing unwanted files"
 
@@ -20,8 +21,6 @@ find $WD/chroot/etc/ssl/certs $WD/chroot/etc/ssl/private |
 		fi
 	done
 debuerreotype-chroot $WD/chroot update-ca-certificates
-
-# Other unwanted files
 
 # Not truly important files
 rm -f $WD/chroot/var/lib/dpkg/info/*.md5sums

@@ -1,12 +1,11 @@
 #!/bin/sh
-
-set -x
-set -e
-set -u
-
 # GTK immodules.cache not reproducible
 # Reference https://labs.riseup.net/code/issues/13440
-# Usign dpkg from tails
+# Using gtk packages from tails that fixed this
+
+set -x # This option causes a bash script to print each command before executing it.
+set -e # This option cause a bash script to exit immediately when a command fails.
+set -u # This option causes a bash script to treat unset variables as an error and exit immediately.
 
 pkg1="libgtk2.0-common_2.24.31-2.0tails1_all.deb"
 shapkg1="0862890d70bafeb6b4a7a1c1da05c90569e0147522d6526fad6d146d6335b79f  -"

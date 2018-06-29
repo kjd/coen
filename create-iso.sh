@@ -1,7 +1,9 @@
 #!/bin/bash
-set -x
-set -e
-set -u
+# Main script for ISO image creation
+
+set -x # This option causes a bash script to print each command before executing it
+set -e # This option cause a bash script to exit immediately when a command fails
+set -u # This option causes a bash script to treat unset variables as an error and exit immediately
 
 source ./variables.sh
 
@@ -83,13 +85,13 @@ sed -i --regexp-extended \
     '11s/.*/#&/' \
     $WD/chroot/etc/pam.d/lightdm-autologin
 
-# lastlog with autologin doesn't make sense
+# Disabling lastlog since autologin is enabled
 sed -i '/^[^#].*pam_lastlog\.so/s/^/# /' $WD/chroot/etc/pam.d/login
 
-# just in case, anyway it is not installed
+# Making sure that the xscreensaver is off
 rm -f $WD/chroot/etc/xdg/autostart/xscreensaver.desktop
 
-# Managing HSMFD, HSMFD1 and KSRFD
+# Defining mount point /media/ for HSMFD, HSMFD1 and KSRFD
 cat > $WD/chroot/etc/udev/rules.d/99-udisks2.rules << EOF
 # UDISKS_FILESYSTEM_SHARED
 # ==1: mount filesystem to a shared directory (/media/VolumeName)
@@ -102,7 +104,7 @@ EOF
 mkdir -p $WD/image/live
 mkdir -p $WD/image/isolinux
 
-# Coping bootloader
+# Copying bootloader
 cp -p $WD/chroot/boot/vmlinuz-* $WD/image/live/vmlinuz
 cp -p $WD/chroot/boot/initrd.img-* $WD/image/live/initrd.img
 
@@ -123,7 +125,7 @@ append initrd=/live/initrd.img boot=live locales=en_US.UTF-8 keymap=us language=
 
 EOF
 
-# Files for ISO booting
+# Coping files for ISO booting
 cp -p $WD/chroot/usr/lib/ISOLINUX/isolinux.bin $WD/image/isolinux/
 cp -p $WD/chroot/usr/lib/ISOLINUX/isohdpfx.bin $WD/image/isolinux/
 cp -p $WD/chroot/usr/lib/syslinux/modules/bios/menu.c32 $WD/image/isolinux/
@@ -138,16 +140,16 @@ cp -p $WD/chroot/usr/share/misc/pci.ids $WD/image/isolinux/
 # Fixing dates to SOURCE_DATE_EPOCH
 debuerreotype-fixup $WD/chroot
 
-# Fixing main folder timestamps
+# Fixing main folder timestamps to SOURCE_DATE_EPOCH
 find "$WD/" -exec touch --no-dereference --date="@$SOURCE_DATE_EPOCH" '{}' +
 
 # Compressing the chroot environment into a squashfs
-mksquashfs $WD/chroot/ $WD/image/live/filesystem.squashfs -comp xz -Xbcj x86 -b 1024K -Xdict-size 1024K -no-exports -processors 1 -no-fragments -wildcards -ef $TOOL/mksquashfs-excludes 
+mksquashfs $WD/chroot/ $WD/image/live/filesystem.squashfs -comp xz -Xbcj x86 -b 1024K -Xdict-size 1024K -no-exports -processors 1 -no-fragments -wildcards -ef $TOOL/mksquashfs-excludes
 
 # Setting permissions for squashfs.img
 chmod 644 $WD/image/live/filesystem.squashfs
 
-# Fixing squashfs folder timestamps
+# Fixing squashfs folder timestamps to SOURCE_DATE_EPOCH
 find "$WD/image/" -exec touch --no-dereference --date="@$SOURCE_DATE_EPOCH" '{}' +
 
 ## Creating the iso
@@ -161,10 +163,10 @@ echo "Calculating SHA-256 HASH of the $ISONAME"
 newhash=$(sha256sum < "${ISONAME}")
   if [ "$newhash" != "$SHASUM" ]
     then
-      echo "ERROR: SHA-256 hashes mismatched reproduction failed :("
+      echo "ERROR: SHA-256 hashes mismatched reproduction failed"
       echo "Please send us an email."
   else
-      echo "Congrats for successfully reproducing coen-${release} ;)"
+      echo "Congrats for successfully reproducing coen-${release}"
       echo "You can compute the SHA-256 checksum of the resulting ISO image by yourself."
       echo "And please send us an email."
   fi
