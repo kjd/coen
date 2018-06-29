@@ -59,7 +59,7 @@ To check your SELinux mode, run `sestatus` and check the output.
 If you see **enforcing** or **permissive** on *"Current mode"*, SELinux is
 enabled and enforcing rules or is enable and log rather than enforce errors.
 
-> **Warning** before proceeding with this. Disabling SELinux also disables the
+> **Warning** before proceeding with this, disabling SELinux also disables the
 generation of file contexts so an entire system relabeling is needed afterwards.
 
 To disable SELinux:
@@ -88,7 +88,7 @@ if the build succeeded it will copy the resulting ISO into the host directory.
 >
 > You can execute `make` command to see more options.
 
-## Send us some feedback
+## Contributing
 
 ### If the build failed
 
@@ -133,15 +133,12 @@ qOpJ8WEcVitR1hj/xHzwg/MZJ+NkLAc=
 -----END PGP SIGNATURE-----
 ```
 
-- And please send us an email.
-
 ### If the build succeeded and the checksums differ (i.e. reproduction failed).
 
-Please help us to improve it. Install `diffoscope` https://diffoscope.org/
-
-Then, download the image from
+Please help us to improve it. You can install `diffoscope` https://diffoscope.org/
+and download the image from
 https://github.com/andrespavez/coen/releases/tag/v0.3.0-20180311
-and compare it with your image executing the following command:
+and then compare it with your image executing the following command:
 
 ```
 diffoscope \
@@ -151,4 +148,4 @@ diffoscope \
   path/to/your/coen-0.3.0-amd64.iso && \
 bzip2 diffoscope.*
 ```
-Please send us an email attaching one or both files.
+Please send us one or both files.
