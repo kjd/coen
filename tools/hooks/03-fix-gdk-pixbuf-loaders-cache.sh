@@ -19,7 +19,7 @@ shapkg3="bd1c3c133b8960825f7e453c7cd5d8254acfa8bf5c1164c89b2ce55da7e04dda  -"
 for pkg in "${pkg1} ${shapkg1}" "${pkg2} ${shapkg2}" "${pkg3} ${shapkg3}"
 do
 	set -- $pkg # parses variable "pkg" $1 name and $2 hash and $3 "-"
-	cp $PACKAGE/$1 $WD/chroot/tmp
+	cp $PACKAGE_DIR/$1 $WD/chroot/tmp
 	echo "Calculating SHA-256 HASH of the $1"
 	hash=$(sha256sum < "$WD/chroot/tmp/$1")
 		if [ "$hash" != "$2  $3" ]

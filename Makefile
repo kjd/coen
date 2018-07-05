@@ -4,10 +4,10 @@ RELEASE = 0.3.0
 
 usage:
 	@echo "Please provide an option:"
-	@echo " make build	--- Build the coen image"
-	@echo " make run	--- Run a container to build the iso"
+	@echo " make build	--- Build the COEN ISO image"
+	@echo " make run	--- Run a container to build the ISO image"
 	@echo " make remove	--- Remove the container"
-	@echo " make copy	--- Copy the iso into the host directory"
+	@echo " make copy	--- Copy the ISO image into the host directory"
 	@echo " make all	--- Execute build, remove, run and copy"
 
 build:
