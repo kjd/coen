@@ -1,6 +1,6 @@
 #!/bin/sh
 # Reference https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=845034
-# mkinitramfs generates non-reproducible ramdisk images
+# mkinitramfs generates not reproducible ramdisk images
 # Using initramfs-tools packages from tails that fixed this
 
 set -x # This option causes a bash script to print each command before executing it

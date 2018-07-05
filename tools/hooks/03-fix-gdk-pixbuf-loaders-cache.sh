@@ -1,5 +1,5 @@
 #!/bin/sh
-# Reference https://labs.riseup.net/code/issues/13442
+# Reference https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=875704
 # gdk-pixbuf's loaders.cache is not reproducible
 # Using gdk-pixbuf packages from tails that fixed this
 

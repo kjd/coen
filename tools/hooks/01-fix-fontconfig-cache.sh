@@ -1,6 +1,6 @@
 #!/bin/sh
 # Reference https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=864082
-# fontconfig generates non-reproducible cache files under
+# fontconfig generates not reproducible cache files under
 # /var/cache/fontconfig
 # Using fontconfig packages from tails that fixed this
 

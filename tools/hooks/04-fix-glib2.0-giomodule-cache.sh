@@ -1,5 +1,5 @@
 #!/bin/sh
-# Reference https://labs.riseup.net/code/issues/13441
+# Reference https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=873625
 # giomodule.cache is not reproducible
 # Using libglib2 packages from tails that fixed this
 
