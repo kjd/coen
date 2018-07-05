@@ -11,9 +11,9 @@ RUN sha256sum -c SHA256SUMS
 
 RUN . ./variables.sh && \
     rm -f /etc/apt/sources.list && \
-    echo "deb http://snapshot.debian.org/archive/debian/$(date --date "$DATE" '+%Y%m%dT%H%M%SZ') $dist main" >> /etc/apt/sources.list && \
-    echo "deb http://snapshot.debian.org/archive/debian/$(date --date "$DATE" '+%Y%m%dT%H%M%SZ') "$dist"-updates main" >> /etc/apt/sources.list && \
-    echo "deb http://snapshot.debian.org/archive/debian-security/$(date --date "$DATE" '+%Y%m%dT%H%M%SZ') "$dist"/updates main" >> /etc/apt/sources.list
+    echo "deb http://snapshot.debian.org/archive/debian/$(date --date "$DATE" '+%Y%m%dT%H%M%SZ') $DIST main" >> /etc/apt/sources.list && \
+    echo "deb http://snapshot.debian.org/archive/debian/$(date --date "$DATE" '+%Y%m%dT%H%M%SZ') "$DIST"-updates main" >> /etc/apt/sources.list && \
+    echo "deb http://snapshot.debian.org/archive/debian-security/$(date --date "$DATE" '+%Y%m%dT%H%M%SZ') "$DIST"/updates main" >> /etc/apt/sources.list
 
 RUN apt-get update -o Acquire::Check-Valid-Until=false && \
     apt-get install -o Acquire::Check-Valid-Until=false --no-install-recommends --yes \

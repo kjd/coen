@@ -20,7 +20,7 @@ FONTSHA256="892a2c0b4f8e4874161165cb253755b3bd695ce238b30c3b8e5447ff269c2740  -"
 for pkg in "${fontconf} ${FONTCONFSHA256}" "${libfontconf1} ${LIBFONTCONF1SHA256}" "${font} ${FONTSHA256}"
 do
 	set -- $pkg # parses variable "pkg" $1 name and $2 hash and $3 "-"
-	cp $PACKAGE/$1 $WD/chroot/tmp
+	cp $PACKAGE_DIR/$1 $WD/chroot/tmp
 	echo "Calculating SHA-256 HASH of the $1"
 	hash=$(sha256sum < "$WD/chroot/tmp/$1")
 		if [ "$hash" != "$2  $3" ]

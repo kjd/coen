@@ -11,7 +11,7 @@ source ./variables.sh
 mkdir -p $WD
 
 # Setting up the base Debian environment
-debuerreotype-init $WD/chroot $dist $DATE --arch=$arch
+debuerreotype-init $WD/chroot $DIST $DATE --arch=$ARCH
 
 # Chroot to the new Debian environment
 debuerreotype-chroot $WD/chroot passwd -d root
@@ -30,7 +30,7 @@ debuerreotype-apt-get $WD/chroot --yes --purge autoremove
 debuerreotype-apt-get $WD/chroot --yes clean
 
 # Applying hooks
-for fixes in $HOOKS/*
+for fixes in $HOOK_DIR/*
 do
   $fixes
 done
@@ -144,7 +144,7 @@ debuerreotype-fixup $WD/chroot
 find "$WD/" -exec touch --no-dereference --date="@$SOURCE_DATE_EPOCH" '{}' +
 
 # Compressing the chroot environment into a squashfs
-mksquashfs $WD/chroot/ $WD/image/live/filesystem.squashfs -comp xz -Xbcj x86 -b 1024K -Xdict-size 1024K -no-exports -processors 1 -no-fragments -wildcards -ef $TOOL/mksquashfs-excludes
+mksquashfs $WD/chroot/ $WD/image/live/filesystem.squashfs -comp xz -Xbcj x86 -b 1024K -Xdict-size 1024K -no-exports -processors 1 -no-fragments -wildcards -ef $TOOL_DIR/mksquashfs-excludes
 
 # Setting permissions for squashfs.img
 chmod 644 $WD/image/live/filesystem.squashfs
@@ -164,11 +164,9 @@ newhash=$(sha256sum < "${ISONAME}")
   if [ "$newhash" != "$SHASUM" ]
     then
       echo "ERROR: SHA-256 hashes mismatched reproduction failed"
-      echo "Please send us an email."
+      echo "Please send us an issue report: https://github.com/iana-org/coen"
   else
-      echo "Congrats for successfully reproducing coen-${release}"
-      echo "You can compute the SHA-256 checksum of the resulting ISO image by yourself."
-      echo "And please send us an email."
+      echo "Successfully reproduced coen-${release}"
   fi
 
 # END
